@@ -2,16 +2,19 @@
 
 An web API for a mind map application. Create/browse private/public/open-source mind maps.
 
-I'm using mind maps to build a mind map application
-
 ## Table of contents
 
 - [my mind maping style](#my-mind-mapping-style)
 - [features](#features)
-- [resources][#resources]
+- [resources](#resources)
 - [other ideas](#other-ideas)
 
 ## my mind mapping style
+
+In this file, I will be using mind maps to document my ideas, issues, and tasks for this project.
+Which means that I'm using mind maps to build a mind map application... How strange and exciting!
+
+Here's how my mind maps are structured.
 
 ```text
 
@@ -173,4 +176,3 @@ node
         [{ node }, { node }, { node }]
 
 ```
-
