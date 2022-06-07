@@ -1,10 +1,15 @@
 # MindNet API
 
-A mind map application. Create/browse private/public/open-source mind maps.
+An web API for a mind map application. Create/browse private/public/open-source mind maps.
+
+I'm using mind maps to build a mind map application
 
 ## Table of contents
 
 - [my mind maping style](#my-mind-mapping-style)
+- [features](#features)
+- [resources][#resources]
+- [other ideas](#other-ideas)
 
 ## my mind mapping style
 
@@ -80,33 +85,92 @@ features
 ```text
 
 resources
-    nodes
-        node
-            unique identifier
-                integer
-                primary key
-            content
-                string
-            reference
-                parent node
-                    unique node identifier
-            references
-                child nodes
-                    reference
-                        child node
-                          unique node identifier
-                    reference
-                        child node
-                          unique node identifier
-                    reference
-                        child node
-                          unique node identifier
-                    ...
-            timestamps
-                created at
-                    date/time
-                updated at
-                    date/time
+    tables
+        nodes
+            record
+                node
+                    columns
+                        unique identifier
+                            integer
+                            primary key
+                        content
+                            string
+                        reference
+                            parent node
+                                unique node identifier
+                        references
+                            child nodes
+                                reference
+                                    child node
+                                      unique node identifier
+                                reference
+                                    child node
+                                      unique node identifier
+                                reference
+                                    child node
+                                      unique node identifier
+                                ...
+                        timestamps
+                            created at
+                                date/time
+                            updated at
+                                date/time
+                      representation
+                          Content-Type: application/json
+                              {
+                                "id": 0,
+                                "content": "this is a main node",
+                                "parent": null,
+                                "children" [
+                                  {
+                                    "id": 1,
+                                    "content": "I'm a chlid of node-id 0",
+                                    "parent": 0,
+                                    "children" [
+                                      {
+                                        "id": 3,
+                                        "content": "I'm a chlid of node-id 1",
+                                        "parent": 0,
+                                        "children" [{ ... }, ...],
+                                        "createdAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                        "updatedAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                      },
+                                      {
+                                        "id": 4,
+                                        "content": "I'm a chlid of node-id 1",
+                                        "parent": 0,
+                                        "children" [{ ... }, ...],
+                                        "createdAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                        "updatedAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                      },
+                                      ...
+                                    ],
+                                    "createdAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                    "updatedAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                  },
+                                  {
+                                     "id": 2,
+                                     "content": "I'm a chlid of node-id 0",
+                                     "parent": 0,
+                                     "children" [{ ... }, ...],
+                                     "createdAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                     "updatedAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                  },
+                                  ...
+                                ],
+                                "createdAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                                "updatedAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
+                              }
+
+```
+
+## other ideas
+
+```text
+
+node
+    sibilings
+        [{ node }, { node }, { node }]
 
 ```
 
