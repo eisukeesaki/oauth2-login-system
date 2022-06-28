@@ -29,6 +29,9 @@ minimum viable product
                         up to N
                             N = 3
                     no capability to create grandchildren of main
+                move focus
+                    upon keyboard input
+                        arrow keys
                 edit
                     focused
                         contents
