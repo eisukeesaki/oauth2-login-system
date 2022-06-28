@@ -18,12 +18,18 @@ meeting agenda 22-06-28
             contradictions?
             missing features?
         what's next
-            understand CI/CD pipeline
-                share understanding on 
-                define individual tasks
-                    CI/CD pipeline
+            CI/CD pipeline
+                understand
+                share understanding
+                    Jun 28 10:30
+                tasks
+                    define
+                    assign
                         set deadline
-                    minimum viable product
+            minimum viable product
+                tasks
+                    define
+                    assign
                         set deadline
             
 ```
