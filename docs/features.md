@@ -31,16 +31,16 @@ features-ideal
                                                       └─ other users'
                                                              public
                                                              open source
-                            undo
-                                Mac
-                                    Command + z
-                                Windows
-                                    Control + z
-                            redo
-                                Mac
-                                    Command + Shift + z
-                                Windows
-                                    Control + Shift + z
+                        undo
+                            Mac
+                                Command + z
+                            Windows
+                                Control + z
+                        redo
+                            Mac
+                                Command + Shift + z
+                            Windows
+                                Control + Shift + z
                     delete
         delete
             own
