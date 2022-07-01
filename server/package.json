@@ -19,5 +19,8 @@
   "dependencies": {
     "bunyan": "^1.8.15",
     "express": "^4.18.1"
+  },
+  "nodemonConfig": {
+    "ignore": ["src/utils/logging/logs.json"]
   }
 }
