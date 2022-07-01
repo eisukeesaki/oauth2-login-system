@@ -1,8 +1,8 @@
-# resources
+# API resources
 
 ```text
 
-resources
+API resources
     tables
         nodes
             record
