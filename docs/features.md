@@ -13,32 +13,42 @@ features-ideal
                 public
                 open source
         view
-            user's own
+            own
             other users'
                 public
                 open source
             viewport zoom in/out
             put focus on multiple nodes
         edit
-            user's own
-            nodes
-                edit
-                    node content
-                    re-order siblings
-                    create links
-                        link references external maps
-                                                  ├─ own
-                                                  └─ other users'
-                                                         public
-                                                         open source
-                delete
+            own
+                nodes
+                    edit
+                        node content
+                        re-order siblings
+                        create links
+                            link references external maps
+                                                      ├─ own
+                                                      └─ other users'
+                                                             public
+                                                             open source
+                            undo
+                                Mac
+                                    Command + z
+                                Windows
+                                    Control + z
+                            redo
+                                Mac
+                                    Command + Shift + z
+                                Windows
+                                    Control + Shift + z
+                    delete
         delete
-            user's own
+            own
                 one
                 multiple
     search maps
         scopes
-            user's own
+            own
             public
                 open source
     pull request maps
