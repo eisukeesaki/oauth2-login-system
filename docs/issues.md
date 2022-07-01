@@ -11,7 +11,15 @@ issues
     entity relation diagrams
     data model specifications
 
-issues-deployment
+issues task management
+    scrum board
+        designed & optimized for managing scrum itself
+            pros
+                easy to grasp sprint cycle's progress
+            cons
+                
+
+issues deployment
     EC2
         instance
             ✓create AMI
@@ -45,27 +53,31 @@ issues-deployment
                         persist
                             ?PM2
 
-issues-testing
-    API
-        routing tests
-            input
-                HTTP message
-                    header
-                        HTTP method
-                        URI
-                        query parameters
-                    payload
-            output
-                HTTP message
-                    header
-                    payload
-        unit tests
-            route handlers
-            helpers
-        ...
-    UI
+issues API
 
-issues-deprecated
+issues UI
+
+issues testing API
+    routing tests
+        input
+            HTTP message
+                header
+                    HTTP method
+                    URI
+                    query parameters
+                payload
+        output
+            HTTP message
+                header
+                payload
+    unit tests
+        route handlers
+        helpers
+    ...
+    
+issues testing UI
+
+issues deprecated
     CI/CD pipeline
         concerns
             worth the cost to setup?
