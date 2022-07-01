@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/eisukeesaki/MindNet#readme",
   "dependencies": {
+    "bunyan": "^1.8.15",
     "express": "^4.18.1"
   }
 }

@@ -1,4 +1,5 @@
 const express = require("express");
+const { logger: l } = require("./src/utils/logging/logger");
 const app = express();
 
 const port = process.env.PORT || 4242;
@@ -8,6 +9,6 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("server is listening to port ", port);
+  l.info("server is listening to port %s", port);
 });
 

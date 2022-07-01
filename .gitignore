@@ -1,4 +1,8 @@
-Amazon-Web-Services.md
-CI-CD-pipeline.md
-task-management.md
+docs/task-management.md
+docs/knowledge/Amazon-Web-Services.md
+docs/knowledge/CI-CD-pipeline.md
+docs/tasks.md
+
+server/src/utils/logging/logs.json
+
 node_modules
