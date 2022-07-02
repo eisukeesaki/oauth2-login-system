@@ -35,23 +35,42 @@ issues deployment
             ✓connect
                 ssh
             Ubuntu server
-                configure
-                    user
-                        ✓create
-                        give appropriate priviledges
-                            ?sudoer
-                    toolset
-                        fish
-                            install
-                        nvim
-                        ?Git
-                Node.js
-                    HTTP server instance
-                        handle requests
+                Linux user
+                    ✓create
+                    ✓give appropriate priviledges
+                        ✓sudoer
+                DevOps toolset
+                    install
+                        ✓fish
+                        ✓nvim
+                JavsScript runtime
+                    Node.js
+                        nvm
+                            ✓install
+                        ✓handle HTTP request
                             build minimal REST API endpoint
-                                install Node.js
-                        persist
-                            ?PM2
+                                create HTTP server instance
+                                    install Node.js
+                        persist Node web server process
+                            set up PM2
+                reverse proxy
+                    forward requests that arrives at port 80 to internal ports that Node server listens to
+                        ?...
+                            intall Nginx
+                    understand
+                        why it's necessary
+                            use cases
+                            enable HTTPS communication
+                                ?SSL certificates
+                            ?load balancing
+                            ?maximize performance
+                                Node is single threaded
+                        basic mechanism
+                            act as front-end server for Node web server
+                deployment automation
+                    automatically pull from GitHub-repository
+                        on Git push from development environment to GitHub repository
+                            setup Git hooks
 
 issues API
 
