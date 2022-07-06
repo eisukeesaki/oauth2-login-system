@@ -76,8 +76,17 @@ meeting agenda 22-06-29
                     defines UI tasks
                     assign tasks to member
             
-            
-
+meeting agenda 22-07-05
+    found problems
+        API
+            how to store references to children nodes?
+            serialization and deserialization
+        UI
+            dragability
+    decision
+        build mind map
+        start new project
+            ?e-commerce
 
 ```
 

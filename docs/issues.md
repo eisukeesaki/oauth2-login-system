@@ -11,13 +11,10 @@ issues
     entity relation diagrams
     data model specifications
 
-issues task management
-    scrum board
-        designed & optimized for managing scrum itself
-            pros
-                easy to grasp sprint cycle's progress
-            cons
-                
+issues
+    data
+        how to serialize data in requst?
+        how to desrialize data retrieved from database?
 
 issues deployment
     EC2
@@ -35,31 +32,42 @@ issues deployment
             ✓connect
                 ssh
             Ubuntu server
-                Linux user
+                ✓Linux user
                     ✓create
                     ✓give appropriate priviledges
                         ✓sudoer
-                DevOps toolset
+                ✓DevOps toolset
                     install
                         ✓fish
                         ✓nvim
-                JavsScript runtime
+                ✓JavsScript runtime
                     Node.js
                         nvm
                             ✓install
+                            ✓set default node version to "use" in shell
                         ✓handle HTTP request
                             build minimal REST API endpoint
                                 create HTTP server instance
                                     install Node.js
                         persist Node web server process
                             set up PM2
-                reverse proxy
+                database
+                    run test query from Node app
+                        AWS Relational Database Service
+                            ?start instance
+                            AWS Aurora
+                                ?create cluster
+                                ?connect interface to cluster
+                                    ?web UI
+                                    CLI
+                                    node-postgres
+                                PostgreSQL
+                ?reverse proxy
                     forward requests that arrives at port 80 to internal ports that Node server listens to
                         ?...
                             intall Nginx
                     understand
-                        why it's necessary
-                            use cases
+                        what problem it solves
                             enable HTTPS communication
                                 ?SSL certificates
                             ?load balancing
@@ -67,6 +75,13 @@ issues deployment
                                 Node is single threaded
                         basic mechanism
                             act as front-end server for Node web server
+                ?containerization
+                    ?containerize application
+                        ?
+                            ?Dockerization
+                            ?docker-compose
+                    understand
+                        what problem it solves
                 deployment automation
                     automatically pull from GitHub-repository
                         on Git push from development environment to GitHub repository

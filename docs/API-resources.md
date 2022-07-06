@@ -80,5 +80,24 @@ API resources
                                 "updatedAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
                               }
 
+resources
+    registration
+    authentication
+        OAuth 2.0
+    data
+        users
+            UID
+            email
+        maps
+            UID
+            user_ID
+        nodes
+            UID
+            map_ID
+            content
+            reference to parent node
+            referneces to children nodes
+                
+
 ```
 
