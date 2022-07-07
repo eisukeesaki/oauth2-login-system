@@ -22,6 +22,13 @@ features
 
 features-wishlist
     map file
+        access management
+            multi-user access
+                access types
+                    read
+                    write
+                access limitation
+                    write access only available for 1 user at any given time
         search
         publish
     map editing
