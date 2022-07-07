@@ -4,7 +4,7 @@ const path = require("path");
 const level = process.env.LOGGING_LEVEL || "info";
 
 const logger = bunyan.createLogger({
-  name: "reservation management",
+  name: "MindNet",
   streams: [
     {
       level,

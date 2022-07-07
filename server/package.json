@@ -18,9 +18,13 @@
   "homepage": "https://github.com/eisukeesaki/MindNet#readme",
   "dependencies": {
     "bunyan": "^1.8.15",
-    "express": "^4.18.1"
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "pg": "^8.7.3"
   },
   "nodemonConfig": {
-    "ignore": ["src/utils/logging/logs.json"]
+    "ignore": [
+      "src/utils/logging/logs.json"
+    ]
   }
 }
