@@ -3,18 +3,10 @@
 ```text
 
 issues
-    ✓define minimum viable product
-        ✓inform UI team
-    UI flow
-    deployment flow 
-        establish
-    entity relation diagrams
-    data model specifications
-
-issues
     data
-        how to serialize data in requst?
-        how to desrialize data retrieved from database?
+        serialization
+            how to serialize data in request?
+            how to desrialize data retrieved from database?
 
 issues deployment
     EC2
@@ -52,7 +44,7 @@ issues deployment
                         persist Node web server process
                             set up PM2
                 database
-                    run test query from Node app
+                    ✓run test query from Node app
                         AWS Relational Database Service
                             ?start instance
                             AWS Aurora
@@ -62,6 +54,7 @@ issues deployment
                                     CLI
                                     node-postgres
                                 PostgreSQL
+                point domain name to EC2 instance
                 ?reverse proxy
                     forward requests that arrives at port 80 to internal ports that Node server listens to
                         ?...
@@ -110,6 +103,10 @@ issues testing API
     ...
     
 issues testing UI
+
+issues
+    ✓define minimum viable product
+        ✓inform UI team
 
 issues deprecated
     CI/CD pipeline
