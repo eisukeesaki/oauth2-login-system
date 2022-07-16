@@ -11,6 +11,11 @@ app.get("/", (req, res) => {
   res.send("you have just made a GET request to /");
 });
 
+const fs = require("fs");
+app.get("/read", function(req, res) {
+  fs.createReadStream("my-self-esteem.txt");
+});
+
 app.listen(port, () => {
   l.info("server is listening to port %s", port);
 });

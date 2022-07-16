@@ -3,10 +3,167 @@
 ```text
 
 issues
-    data
-        serialization
-            how to serialize data in request?
-            how to desrialize data retrieved from database?
+    ✓define minimum viable product
+    build API
+        design API
+    build API
+        design client
+
+issues API
+    serve HTTP requests
+        build API
+            design RESTful API
+                design resources
+                    HTML documents
+                        authentication/registration
+                        map list
+                        map editor
+                    users
+                        id
+                            UID
+                                not nullable
+                        email
+                            String
+                                not nullable
+                        name
+                            String
+                                not nullable
+                    maps
+                        id
+                            UID
+                                not nullable
+                        title
+                            String
+                                not nullable
+                        user_id
+                            UID
+                                not nullable
+                    nodes
+                        id
+                            UID
+                                not nullable
+                        content
+                            String
+                                not nullable
+                        parent_id
+                            UID
+                                not nullable
+                        map_id
+                            UID
+                                not nullable
+                define Universal Resource Identifiers
+                    /
+                        GET
+                            if has session
+                                return map list document 
+                            else
+                                return authentication/registration document
+                    /maplist
+                        GET 
+                            if has session
+                                return map list document 
+                            else
+                                return authentication/registration document
+                    /editor
+                        GET
+                            if has session
+                                return map editor document 
+                            else
+                                return authentication/registration document
+                    /api
+                        /api/maps?owner_id={id}
+                            GET
+                                if unauthorized data is requested
+                                    return 4XX
+                                else
+                                    return list of maps associated with owner_id
+                        /api/nodes?map_id={id}
+                            GET 
+                                if unauthorized data is requested
+                                    return 4XX
+                                else
+                                    return list of maps associated with map_id
+                design HTTP server
+                    listen to requests
+                        Node
+                            net.js
+                                Server.listen()
+                    parse requests
+                        Express
+                            bodyParser.json([opts])
+                    perform operation on resource
+                        operation types
+                            read
+                            write
+                        flow
+                            1. route requests arriving at endpoints to controller functions
+                            2. call service functions from controller functions
+                            3. make queries to database
+                            4. process database response
+                        make queries to database
+                            database interface
+                                PostgreSQL client
+                                    node-postgres
+                                        pool.query()
+                                            SQL
+                    send resource
+                        Node
+                            _http_response.js
+                                Server.response(req)
+                create database
+                    create tables using SQL
+                        users
+                        maps
+                        nodes
+                    seed tables using SQL
+                        users
+                        maps
+                        nodes
+            test all end points
+                test manually
+                    cURL
+                automate test sequence
+                    shell script
+                        cURL
+
+issues API testing
+    routing tests
+        input
+            HTTP message
+                header
+                    HTTP method
+                    URI
+                    query parameters
+                payload
+        output
+            HTTP message
+                header
+                payload
+    unit tests
+        route handlers
+        helpers
+    ...
+    
+issues UI
+    views
+        authentication/registration
+            required resource
+                HTML document
+                    link to Google's authentication server
+        map list
+            required resource
+                HTML document
+                    UI components template
+                        React's "root div"
+                list of maps associated with a specified user
+        map editor
+            required resource
+                HTML document
+                    UI components template
+                        React's "root div"
+                list of nodes associated with a specified map
+
+issues UI testing
 
 issues deployment
     EC2
@@ -41,9 +198,9 @@ issues deployment
                             build minimal REST API endpoint
                                 create HTTP server instance
                                     install Node.js
-                        persist Node web server process
+                        ✓persist Node web server process
                             set up PM2
-                database
+                ✓database
                     ✓run test query from Node app
                         AWS Relational Database Service
                             ?start instance
@@ -54,9 +211,9 @@ issues deployment
                                     CLI
                                     node-postgres
                                 PostgreSQL
-                point domain name to EC2 instance
+                ✓point domain name to EC2 instance
                 ?reverse proxy
-                    forward requests that arrives at port 80 to internal ports that Node server listens to
+                    Forward requests that arrives at port 80 to ports that Node server listens to.
                         ?...
                             intall Nginx
                     understand
@@ -80,35 +237,10 @@ issues deployment
                         on Git push from development environment to GitHub repository
                             setup Git hooks
 
-issues API
-
-issues UI
-
-issues testing API
-    routing tests
-        input
-            HTTP message
-                header
-                    HTTP method
-                    URI
-                    query parameters
-                payload
-        output
-            HTTP message
-                header
-                payload
-    unit tests
-        route handlers
-        helpers
-    ...
-    
-issues testing UI
-
-issues
-    ✓define minimum viable product
-        ✓inform UI team
-
 issues deprecated
+    data serialization
+            how to serialize data in request?
+            how to desrialize data retrieved from database?
     CI/CD pipeline
         concerns
             worth the cost to setup?
