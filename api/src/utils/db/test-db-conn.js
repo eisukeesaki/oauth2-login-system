@@ -1,6 +1,6 @@
 const { logger: l } = require("../logging/logger");
 
-async function queryTimestamp(pool) {
+async function testDbConn(pool) {
   try {
     l.info("querying database...")
     const res = await pool.query("SELECT NOW()");
@@ -8,11 +8,11 @@ async function queryTimestamp(pool) {
     if (res.rows.length)
       l.info("database query successful");
     else
-      l.info("empty response from from database");
+      throw new Error("failed to do a test query at server start up");
   } catch (error) {
-    l.info("Failed to query database.\n%s", error.stack);
+    l.info("failed to do a test query on database on server start up.\n%s", error.stack);
   }
 }
 
-module.exports = queryTimestamp
+module.exports = testDbConn;
 
