@@ -8,8 +8,10 @@ const port = process.env.PORT || 4242;
 
 testDbConn(pool);
 
+app.use(express.static("views"));
+
 app.get("/", (req, res) => {
-  l.info("detected request. request header:\n", req.headers);
+  // return view document
   res.send("you have just made a GET request to /");
 });
 
