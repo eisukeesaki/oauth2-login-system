@@ -108,7 +108,7 @@ issues API
                         Node
                             _http_response.js
                                 Server.response(req)
-                create database
+                ✓create database
                     create tables using SQL
                         users
                         maps
