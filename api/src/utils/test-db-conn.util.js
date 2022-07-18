@@ -1,4 +1,4 @@
-const { logger: l } = require("../logging/logger");
+const { logger: l } = require("@utils/logger.util");
 
 async function testDbConn(pool) {
   try {

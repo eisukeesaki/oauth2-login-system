@@ -7,6 +7,6 @@ docs/tasks.md
 docs/ask-Prabh.md
 
 graphql-schema
-api/src/utils/logging/logs.json
+logs.json
 
 node_modules

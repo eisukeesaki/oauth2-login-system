@@ -1,4 +1,4 @@
-const { logger: l } = require("../utils/logging/logger");
+const { logger: l } = require("@utils/logger.util");
 require("dotenv").config();
 const { Pool } = require("pg");
 
