@@ -1,4 +1,3 @@
-const { logger: l } = require("@utils/logger.util");
 const router = require("express").Router();
 
 router.get("/", (req, res) => {

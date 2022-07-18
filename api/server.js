@@ -13,6 +13,7 @@ const app = express();
 const port = process.env.PORT || 4242;
 
 testDbConn(pool);
+
 app.use(requestLogger);
 app.use(express.static("@views"));
 app.use(viewsRoute);
