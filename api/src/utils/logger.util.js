@@ -1,5 +1,6 @@
 const bunyan = require("bunyan");
 const path = require("path");
+const { path: root } = require("app-root-path");
 
 const level = process.env.LOGGING_LEVEL || "info";
 
@@ -12,7 +13,7 @@ const logger = bunyan.createLogger({
     },
     {
       level,
-      path: path.resolve(process.env.NODE_PATH, "logs.json")
+      path: path.resolve(root, "logs.json")
     }
   ]
 });
