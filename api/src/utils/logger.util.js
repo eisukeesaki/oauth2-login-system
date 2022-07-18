@@ -12,13 +12,13 @@ const logger = bunyan.createLogger({
     },
     {
       level,
-      path: path.resolve(__dirname, "logs.json")
+      path: path.resolve(process.env.NODE_PATH, "logs.json")
     }
   ]
 });
 
 function logRequest(req, res, next) {
-  logger.info("request", {
+  logger.info("request: %o", {
     protocol: req.protocol,
     method: req.method,
     URL: req.originalUrl,
@@ -32,7 +32,7 @@ function logRequest(req, res, next) {
   next();
 }
 
-function logResponse(req, res, next) {
+function logResponse(res, next) {
   logger.info("response", {
     // routerStack: res.app._router.stack,
     params: res.app._router.params,
