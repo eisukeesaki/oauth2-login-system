@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 router.get("/", (req, res) => {
-  // check existence of session
+  res.send("you have just made a GET request to /");
 });
 
 module.exports = router;
