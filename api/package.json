@@ -4,7 +4,8 @@
   "description": "TBA",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_PATH=. nodemon index.js | node_modules/.bin/bunyan",
+    "prod": "NODE_PATH=. node index.js | node_modules/.bin/bunyan",
+    "dev": "NODE_PATH=. nodemon index.js | node_modules/.bin/bunyan",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,7 +27,7 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/utils/logging/logs.json"
+      "logs.json"
     ]
   },
   "_moduleAliases": {
