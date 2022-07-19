@@ -2,19 +2,24 @@ const bunyan = require("bunyan");
 const path = require("path");
 const { path: root } = require("app-root-path");
 
-const level = process.env.LOGGING_LEVEL || "info";
-
 const logger = bunyan.createLogger({
   name: "MindNet",
   streams: [
     {
-      level,
+      level: "info",
       stream: process.stdout
     },
     {
-      level,
+      level: "warn",
+      stream: process.stderr,
+      path: path.resolve(root, "logs.json")
+    },
+    {
+      level: "debug",
+      stream: process.out,
       path: path.resolve(root, "logs.json")
     }
+
   ]
 });
 
