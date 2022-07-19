@@ -1,8 +1,13 @@
-const router = require("express").Router();
+const maps = require("express").Router();
 
-router.get("/", (req, res) => {
-  res.send("you have just made a GET request to /");
+maps.get("/api/maps", (req, res) => {
+  // expects ?owner_id=id
+  console.log("req.query - ", req.query);
+
+  // validate query param
+  // TODO
+  res.send(req.query);
 });
 
-module.exports = router;
+module.exports = maps;
 
