@@ -110,7 +110,6 @@ issues API
                                 Server.response(req)
                 create database
                     create tables using SQL
-                        disallow creation of multiple main nodes within a particular map
                     seed tables using SQL
                         automate seeding
                             automatically insert rows that conforms to constraints
