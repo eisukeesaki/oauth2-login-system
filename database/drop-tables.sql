@@ -1,0 +1,3 @@
+DROP TABLE nodes;
+DROP TABLE maps;
+DROP TABLE users;

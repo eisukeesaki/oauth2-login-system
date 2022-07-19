@@ -108,15 +108,12 @@ issues API
                         Node
                             _http_response.js
                                 Server.response(req)
-                ✓create database
+                create database
                     create tables using SQL
-                        users
-                        maps
-                        nodes
+                        disallow creation of multiple main nodes within a particular map
                     seed tables using SQL
-                        users
-                        maps
-                        nodes
+                        automate seeding
+                            automatically insert rows that conforms to constraints
             test all end points
                 test manually
                     cURL
