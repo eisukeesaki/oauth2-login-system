@@ -69,18 +69,59 @@ issues API
                             else
                                 return authentication/registration document
                     /api
-                        /api/maps?user_id={id}
+                        /api/maps
+                            POST
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    create new map record using data in payload
+                                    send status code
                             GET
-                                if unauthorized data is requested
-                                    return 4XX
+                                if not authenticated
+                                    send 4XX
                                 else
-                                    return list of maps associated with owner_id
-                        /api/nodes?map_id={id}
+                                    ✓return list of maps associated with ?user_id=id
+                                    return list of maps associated with session user
+                            PUT
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    update title of specified map record using data in payload
+                                    send status code
+                            DELETE
+                                if unauthorized data is requested
+                                    send 4XX
+                                else
+                                    delete specified map record
+                                    delete all nodes associated with specified map
+                                    send status code
+                        /api/nodes?map_id=UUID
+                            POST
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    create new node record
+                                        with data in payload and query string
+                                    send status code
                             GET 
-                                if unauthorized data is requested
-                                    return 4XX
+                                if not authenticated
+                                    send 4XX
                                 else
-                                    return list of maps associated with map_id
+                                    send list of map records
+                                        associated with query string
+                            PUT
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    update node record
+                                      specified by query string
+                                      with data in payload
+                            DELETE
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    delete node record
+                                        specified by query string
                 design HTTP server
                     listen to requests
                         Node
