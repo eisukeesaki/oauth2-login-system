@@ -69,7 +69,7 @@ issues API
                             else
                                 return authentication/registration document
                     /api
-                        /api/maps?owner_id={id}
+                        /api/maps?user_id={id}
                             GET
                                 if unauthorized data is requested
                                     return 4XX

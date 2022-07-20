@@ -13,8 +13,8 @@ IP = in progress
 API
     endpoints
         GET /api/maps
-            modularize query string validation logic
-            separate route hanlder logic into controller and service
+            ✓modularize query string validation logic
+            ✓separate route hanlder logic into controller and service
             chain route handlers to increase readability
             authenticate request
     low priority
