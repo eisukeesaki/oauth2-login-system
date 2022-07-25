@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { MeshLine, MeshLineMaterial } from 'meshline';
 
 const lineWidth = 5;
-
 export default async function addConnection(
     scene,
     { color, parentNode, childNode }

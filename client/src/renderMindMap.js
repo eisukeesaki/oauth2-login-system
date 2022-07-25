@@ -13,7 +13,6 @@ export default async function renderMindMap(div) {
     root.x = 0;
     root.y = 0;
     root.level = 0;
-
     await addMindMapNode(scene, root);
     const radius = 2;
     const slice = (2 * Math.PI) / level1.length;

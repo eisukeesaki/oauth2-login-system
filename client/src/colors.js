@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-
 export default {
     magenta: new THREE.Color(0xf103c8),
     violet: new THREE.Color(0x8603f1),
