@@ -1,11 +1,13 @@
-.env
-
 docs/task-management.md
 docs/knowledge/Amazon-Web-Services.md
 docs/knowledge/CI-CD-pipeline.md
 docs/ask-Prabh.md
 
-graphql-schema
-logs.json
+api/src/configs
 
+.env
 node_modules
+cookiejar
+logs.json
+graphql-schema
+
