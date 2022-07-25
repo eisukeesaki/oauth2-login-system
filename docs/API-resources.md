@@ -3,6 +3,31 @@
 ```text
 
 API resources
+    mind maps 
+        structure
+            maps
+                nodes
+                    node
+        data representation
+            users
+                uid
+                email
+                name
+            maps
+                uid
+                title
+                user_id
+            nodes
+                uid
+                content
+                node_id_parent
+                map_id
+    user services
+        registration
+        authentication
+            Google OAuth
+    
+API resources (old)
     tables
         nodes
             record
@@ -79,25 +104,6 @@ API resources
                                 "createdAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
                                 "updatedAt": "YYYY-MM-DD HH:MM:SS -/+H:00"
                               }
-
-resources
-    registration
-    authentication
-        OAuth 2.0
-    data
-        users
-            UID
-            email
-        maps
-            UID
-            user_ID
-        nodes
-            UID
-            map_ID
-            content
-            reference to parent node
-            referneces to children nodes
-                
 
 ```
 

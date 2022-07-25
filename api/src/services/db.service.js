@@ -1,7 +1,6 @@
-const { logger: l } = require("../utils/logging/logger");
+const { logger: l } = require("@utils/logger.util");
 require("dotenv").config();
 const { Pool } = require("pg");
-const testQuery = require("../utils/db/query-timestamp");
 
 const config = {
   host: process.env.PG_HOST,
@@ -12,8 +11,6 @@ const config = {
 }
 
 const pool = new Pool(config);
-
-testQuery(pool);
 
 module.exports = {
   query: (string, params) => pool.query(string, params)

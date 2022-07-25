@@ -1,0 +1,293 @@
+issues
+    ✓define minimum viable product
+    build API
+        design API
+    build API
+        design client
+
+issues API
+    serve HTTP requests
+        build API
+            design RESTful API
+                design resources
+                    HTML documents
+                        authentication/registration
+                        map list
+                        map editor
+                    registration
+                    authentication
+                    users
+                        id
+                            UID
+                                not nullable
+                        email
+                            String
+                                not nullable
+                        name
+                            String
+                                not nullable
+                    maps
+                        id
+                            UID
+                                not nullable
+                        title
+                            String
+                                not nullable
+                        user_id
+                            UID
+                                not nullable
+                    nodes
+                        id
+                            UID
+                                not nullable
+                        content
+                            String
+                                not nullable
+                        parent_id
+                            UID
+                                not nullable
+                        map_id
+                            UID
+                                not nullable
+                define Universal Resource Identifiers
+                    /
+                        GET
+                            if has session
+                                return map list document 
+                            else
+                                return authentication/registration document
+                    /maplist
+                        GET 
+                            if has session
+                                return map list document 
+                            else
+                                return authentication/registration document
+                    /editor
+                        GET
+                            if has session
+                                return map editor document 
+                            else
+                                return authentication/registration document
+                    /api
+                        /api/maps
+                            POST
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    create new map record using data in payload
+                                    send status code
+                            GET
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    ✓return list of maps associated with ?user_id=id
+                                    return list of maps associated with session user
+                            PUT
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    update title of specified map record using data in payload
+                                    send status code
+                            DELETE
+                                if unauthorized data is requested
+                                    send 4XX
+                                else
+                                    delete specified map record
+                                    delete all nodes associated with specified map
+                                    send status code
+                        /api/nodes?map_id=UUID
+                            POST
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    create new node record
+                                        with data in payload and query string
+                                    send status code
+                            GET 
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    send list of map records
+                                        associated with query string
+                            PUT
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    update node record
+                                      specified by query string
+                                      with data in payload
+                            DELETE
+                                if not authenticated
+                                    send 4XX
+                                else
+                                    delete node record
+                                        specified by query string
+                design HTTP server
+                    listen to requests
+                        Node
+                            net.js
+                                Server.listen()
+                    parse requests
+                        Express
+                            bodyParser.json([opts])
+                    perform operation on resource
+                        operation types
+                            read
+                            write
+                        flow
+                            1. route requests arriving at endpoints to controller functions
+                            2. call service functions from controller functions
+                            3. make queries to database
+                            4. process database response
+                        make queries to database
+                            database interface
+                                PostgreSQL client
+                                    node-postgres
+                                        pool.query()
+                                            SQL
+                    send resource
+                        Node
+                            _http_response.js
+                                Server.response(req)
+                create database
+                    create tables using SQL
+                    seed tables using SQL
+                        automate seeding
+                            automatically insert rows that conforms to constraints
+            test all end points
+                test manually
+                    cURL
+                automate test sequence
+                    shell script
+                        cURL
+
+issues API testing
+    routing tests
+        input
+            HTTP message
+                header
+                    HTTP method
+                    URI
+                    query parameters
+                payload
+        output
+            HTTP message
+                header
+                payload
+    unit tests
+        route handlers
+        helpers
+    ...
+    
+issues UI
+    views
+        authentication/registration
+            required resource
+                HTML document
+                    link to Google's authentication server
+        map list
+            required resource
+                HTML document
+                    UI components template
+                        React's "root div"
+                list of maps associated with a specified user
+        map editor
+            required resource
+                HTML document
+                    UI components template
+                        React's "root div"
+                list of nodes associated with a specified map
+
+issues UI testing
+
+issues deployment
+    EC2
+        instance
+            ✓create AMI
+                ✓minimum configuration to start and connect to instance
+                in-depth configurations
+                    apply best practices
+                        Security
+                        Storage
+                        Resource management
+                        Backup and recovery
+                        Networking
+            ✓start
+            ✓connect
+                ssh
+            Ubuntu server
+                ✓Linux user
+                    ✓create
+                    ✓give appropriate priviledges
+                        ✓sudoer
+                ✓DevOps toolset
+                    install
+                        ✓fish
+                        ✓nvim
+                ✓JavsScript runtime
+                    Node.js
+                        nvm
+                            ✓install
+                            ✓set default node version to "use" in shell
+                        ✓handle HTTP request
+                            build minimal REST API endpoint
+                                create HTTP server instance
+                                    install Node.js
+                        ✓persist Node web server process
+                            set up PM2
+                ✓database
+                    ✓run test query from Node app
+                        AWS Relational Database Service
+                            ?start instance
+                            AWS Aurora
+                                ?create cluster
+                                ?connect interface to cluster
+                                    ?web UI
+                                    CLI
+                                    node-postgres
+                                PostgreSQL
+                ✓point domain name to EC2 instance
+                ?reverse proxy
+                    Forward requests that arrives at port 80 to ports that Node server listens to.
+                        ?...
+                            intall Nginx
+                    understand
+                        what problem it solves
+                            enable HTTPS communication
+                                ?SSL certificates
+                            ?load balancing
+                            ?maximize performance
+                                Node is single threaded
+                        basic mechanism
+                            act as front-end server for Node web server
+                ?containerization
+                    ?containerize application
+                        ?
+                            ?Dockerization
+                            ?docker-compose
+                    understand
+                        what problem it solves
+                deployment automation
+                    automatically pull from GitHub-repository
+                        on Git push from development environment to GitHub repository
+                            setup Git hooks
+
+issues deprecated
+    data serialization
+            how to serialize data in request?
+            how to desrialize data retrieved from database?
+    CI/CD pipeline
+        concerns
+            worth the cost to setup?
+                no experience
+                    requires comprehensive knowledge
+                        about a particular software engineering methodology
+                        highly costly
+                            time
+                    very difficult to estimate cost upfront
+                difference
+                    learn
+                        usage
+                        configuration
+                        maintenance
+

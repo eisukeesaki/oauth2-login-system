@@ -88,5 +88,25 @@ meeting agenda 22-07-05
         start new project
             ?e-commerce
 
+meeting agenda 22-07-15
+    GraphQL
+        done
+            created
+                type definition
+                    definition of API schema
+                    can be used as contract between FE and BE
+                resolvers (implementation)
+                    implementation of API schema
+        tasks
+            test Query
+            test Mutation
+            connect GQL server to database
+        on my mind
+            use Subscription to update update node content?
+        wireframe
+            no footer in node editor view
+                create about page instead?
+        
+            
 ```
 

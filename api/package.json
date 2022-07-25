@@ -2,8 +2,10 @@
   "name": "mindnet-api",
   "version": "0.0.1",
   "description": "TBA",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "prod": "node server.js | node_modules/.bin/bunyan",
+    "dev": "nodemon server.js | node_modules/.bin/bunyan",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,14 +19,29 @@
   },
   "homepage": "https://github.com/eisukeesaki/MindNet#readme",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "bunyan": "^1.8.15",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "pg": "^8.7.3"
+    "module-alias": "^2.2.2",
+    "pg": "^8.7.3",
+    "uuid-validate": "^0.0.3"
   },
   "nodemonConfig": {
     "ignore": [
-      "src/utils/logging/logs.json"
+      "logs.json"
     ]
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@tests": "tests",
+    "@src": "src",
+    "@configs": "src/configs",
+    "@controllers": "src/controllers",
+    "@middlewares": "src/middlewares",
+    "@routes": "src/routes",
+    "@services": "src/services",
+    "@utils": "src/utils",
+    "@views": "src/views"
   }
 }

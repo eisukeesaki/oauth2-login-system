@@ -7,18 +7,23 @@ features
         user registration
         user authentication
     map
+        create
+            create a mind map that will contain a set of nodes, which are associated with the map
+        view list
+            view list of maps that user owns
+        edit title
+        delete
+            deletes map record along with all associated nodes
         fully manipulatable with keyboard
+    nodes
         create
         view
             put keyboard focus on multiple nodes
         edit
-            nodes
-                edit
-                    node content
-                    re-order siblings
-                delete
-                    keyboard focused
+            node content
+            re-order siblings
         delete
+            keyboard focused
 
 features-wishlist
     map file
