@@ -38,7 +38,7 @@ function logRequest(req, res, next) {
   next();
 }
 
-function logResponse(res, next) {
+function logResponse(req, res, next) {
   logger.info("response", {
     // routerStack: res.app._router.stack,
     params: res.app._router.params,
@@ -49,9 +49,17 @@ function logResponse(res, next) {
   next();
 }
 
+function logSession(req, res, next) {
+  logger.info("req.session", req.session);
+  logger.info("req.user", req.user);
+  logger.info("req._passport", req._passport);
+  next();
+}
+
 module.exports = {
   logger,
   logRequest,
-  logResponse
+  logResponse,
+  logSession
 }
 
