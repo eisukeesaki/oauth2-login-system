@@ -34,6 +34,7 @@
   },
   "_moduleAliases": {
     "@root": ".",
+    "@boot": "src/boot",
     "@tests": "tests",
     "@src": "src",
     "@configs": "src/configs",
