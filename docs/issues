@@ -11,11 +11,45 @@ issues API
             design RESTful API
                 design resources
                     HTML documents
-                        authentication/registration
+                        sign in
                         map list
                         map editor
-                    registration
-                    authentication
+                    registration/authentication
+                        ✓create endopint that initiates OAuth 2.0 flow
+                            redirect user to Google's authorization/authentication server
+                            Google's job
+                                authenticates user
+                                ask user to send a signed consent form which indicates
+                                    consent for this application to access the user's Google identity on behalf of the user 
+                                redirect user to this application
+                                    along with an access token
+                                        which contains the right to access the user's Google identity on behalf of the user
+                        ✓make callback endpoint that fetches the user's Google identity
+                            and logs the user in
+                                try to retrieve a record out of `federated_credentials`
+                                    using a set of information as a key
+                                        name of OAuth provider
+                                        subject
+                                if user has never signed in with Google
+                                    create two new records in database and
+                                        associate them
+                                            create a new `users` record
+                                            create a new `federated_credentials` record
+                                    create a session
+                                        using a `users` record which is associated with the Google account
+                                else
+                                    retrieve a `users` record
+                                        use `user_id` of federated_credentials record as key
+                                            which was retrived during the first step of the flow
+                                    create a session 
+                                        use `id` and `name` of `users` table
+                        review GoogleStrategy constructor options
+                        review express-session initialization options
+                        review passport.authenticate() options
+                        session store
+                            Redis
+                                configure
+                                integrate to route handling logic
                     users
                         id
                             UID

@@ -10,7 +10,7 @@ function validateQueryString(qs) {
 }
 
 async function fetchMapsByUserId(userId) {
-  const db = require("@services/db.service");
+  const db = require("@boot/db.boot");
   const qs = "SELECT * FROM maps WHERE user_id = $1";
   const qp = [userId];
 
