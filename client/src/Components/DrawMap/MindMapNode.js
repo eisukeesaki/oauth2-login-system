@@ -7,7 +7,7 @@ export default function MindMapNode({ level, label }) {
             xmlns="http://www.w3.org/1999/xhtml"
             className={cx(
                 'mind-map-node',
-                level === 0 && 'magenta',
+                level === 0 && 'grey',
                 level === 1 && 'violet',
                 level === 2 && 'blue',
                 level >= 3 && 'turquoise'

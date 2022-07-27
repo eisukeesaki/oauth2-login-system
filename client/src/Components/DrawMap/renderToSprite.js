@@ -9,6 +9,7 @@ export default async function renderToSprite(content, { width, height }) {
     const map = new THREE.CanvasTexture(canvas);
     const material = new THREE.SpriteMaterial({ map });
     const sprite = new THREE.Sprite(material);
-    sprite.scale.set(width / 100, height / 100, 0.1);
+    sprite.scale.set(width / 6, height / 6);
     return sprite;
 }
+
