@@ -4,6 +4,7 @@ import renderToSprite from './renderToSprite';
 
 const width = 120;
 const height = 60;
+
 export default async function addMindMapNode(scene, { level, label, x, y }) {
     const mindMapNode = await renderToSprite(
         <MindMapNode level={level} label={label} />,

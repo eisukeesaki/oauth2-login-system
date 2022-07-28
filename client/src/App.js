@@ -1,5 +1,5 @@
 import React, { createRef, useEffect } from 'react';
-import renderMindMap from './renderMindMap';
+import renderMindMap from './Components/DrawMap/renderMindMap';
 
 export default function App() {
   const divRef = createRef();
