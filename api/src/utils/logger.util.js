@@ -19,22 +19,30 @@ const logger = bunyan.createLogger({
       stream: process.out,
       path: path.resolve(root, "logs.json")
     }
-
   ]
 });
 
 function logRequest(req, res, next) {
-  logger.info("request: %o", {
-    protocol: req.protocol,
-    method: req.method,
-    URL: req.originalUrl,
-    query: req.query,
-    params: req.params,
-    cookies: req.cookies,
-    headers: req.headers,
-    body: req.body,
-    // session: req.session.passport
-  });
+  logger.info("captured incoming request.\n" +
+    "req.protocol: %o\n" +
+    "req.method: %o\n" +
+    "req.originalUrl: %o\n" +
+    "req.query: %o\n" +
+    "req.params: %o\n" +
+    "req.cookies: %o\n" +
+    "req.signedCookies %o\n" +
+    "req.headers: %o\n" +
+    "req.body: %o\n",
+    req.protocol,
+    req.method,
+    req.originalUrl,
+    req.query,
+    req.params,
+    req.cookies,
+    req.signedCookies,
+    req.headers,
+    req.body
+  );
   next();
 }
 
@@ -50,9 +58,8 @@ function logResponse(req, res, next) {
 }
 
 function logSession(req, res, next) {
-  logger.info("req.session", req.session);
-  logger.info("req.user", req.user);
-  logger.info("req._passport", req._passport);
+  logger.info("req.session.passport %o\nreq.user %o\n",
+    req.session.passport, req.user);
   next();
 }
 
