@@ -32,6 +32,7 @@ function logRequest(req, res, next) {
     "req.cookies: %o\n" +
     "req.signedCookies %o\n" +
     "req.headers: %o\n" +
+    "req.isAuthenticated: %o\n" +
     "req.body: %o\n",
     req.protocol,
     req.method,
@@ -41,6 +42,7 @@ function logRequest(req, res, next) {
     req.cookies,
     req.signedCookies,
     req.headers,
+    req.isAuthenticated,
     req.body
   );
   next();
