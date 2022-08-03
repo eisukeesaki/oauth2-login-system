@@ -10,4 +10,4 @@ node_modules
 cookiejar
 logs.json
 graphql-schema
-
+Session.vim
