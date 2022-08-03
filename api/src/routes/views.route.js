@@ -22,7 +22,6 @@ views.get("/maplist",
 views.get("/editor",
   ensureAuthenticated,
   (req, res, next) => {
-    // logSession("GET /editor")(req, res, next);
     l.info("req.session @ GET /editor", req.session);
     res.sendFile(__views + "/editor.html");
   }
