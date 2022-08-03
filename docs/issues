@@ -5,6 +5,7 @@ issues
     build API
         design client
 
+issues - authenticate request before executing route handler
 issues API
     serve HTTP requests
         build API
@@ -87,7 +88,7 @@ issues API
                     /
                         GET
                             if has session
-                                return map list document 
+                                redirect to /maplist
                             else
                                 return authentication/registration document
                     /maplist

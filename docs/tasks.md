@@ -12,6 +12,8 @@ IP = in progress
 
 API
     endpoints
+        view routes
+            ?serve React's /public files
         GET /api/maps
             ✓modularize query string validation logic
             ✓separate route hanlder logic into controller and service
