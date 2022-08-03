@@ -122,7 +122,7 @@ issues API
                                         using data in request body
                                             INSERT INTO maps (title, user_id) VALUES (<received title>, <user id associated with session>)
                                 GET
-                                    return list of map records associated with the client's session
+                                    ✓return list of map records associated with the client's session
                                         SELECT * FROM maps where user_id = <user id associated with session>
                                 PUT
                                     update title of map record associated with client's session

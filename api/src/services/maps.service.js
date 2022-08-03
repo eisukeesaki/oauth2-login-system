@@ -13,6 +13,35 @@ async function insertMap(values) {
   return rows;
 }
 
+async function selectMaps(condition) {
+  try {
+    const qs = "SELECT * FROM maps where user_id = $1";
+    const qp = [condition];
+
+
+    l.info("qp @ getMaps", qp);
+    const { rows } = await db.query(qs, qp);
+    l.debug("rows = SELECT * FROM maps where user_id = $1\n", rows);
+
+    if (!rows) {
+      throw new Error("failed to retrieve map records", {
+        cause: "Falsy rows"
+      });
+    }
+
+    return rows;
+  } catch (err) {
+    if (err.cause === "Falsy rows") {
+      l.error(err.message, err.cause);
+      res.status(500).send(err.message);
+    } else {
+      l.error(err);
+      throw new Error("unhandled exception");
+      res.status(500).send(err.message);
+    }
+  }
+}
+
 function validateQueryString(qs) {
   // TODO: add validation: only one key-value pair in query string?
   /* valid UUID? */
@@ -35,6 +64,7 @@ async function fetchMapsByUserId(userId) {
 module.exports = {
   validateQueryString,
   fetchMapsByUserId,
-  insertMap
+  insertMap,
+  selectMaps
 }
 
