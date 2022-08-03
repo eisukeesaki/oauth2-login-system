@@ -15,7 +15,7 @@ issues API
                         sign in
                         map list
                         map editor
-                    registration/authentication
+                    ✓registration/authentication
                         ✓create endopint that initiates OAuth 2.0 flow
                             redirect user to Google's authorization/authentication server
                             Google's job
@@ -44,7 +44,7 @@ issues API
                                             which was retrived during the first step of the flow
                                     create a session 
                                         use `id` and `name` of `users` table
-                        review GoogleStrategy constructor options
+                        ✓review GoogleStrategy constructor options
                         ✓review express-session initialization options
                         ✓review passport.authenticate() options
                         ✓session store
@@ -85,78 +85,76 @@ issues API
                             UID
                                 not nullable
                 define Universal Resource Identifiers
-                    /
-                        GET
-                            if has session
-                                redirect to /maplist
-                            else
-                                return authentication/registration document
-                    /maplist
-                        GET 
-                            if has session
-                                return map list document 
-                            else
-                                return authentication/registration document
-                    /editor
-                        GET
-                            if has session
-                                return map editor document 
-                            else
-                                return authentication/registration document
-                    /api
-                        /api/maps
-                            POST
-                                if not authenticated
-                                    send 4XX
-                                else
-                                    create new map record using data in payload
-                                    send status code
+                    views
+                        /
                             GET
-                                if not authenticated
-                                    send 4XX
+                                if has session
+                                    redirect to /maplist
                                 else
-                                    ✓return list of maps associated with ?user_id=id
-                                    return list of maps associated with session user
-                            PUT
-                                if not authenticated
-                                    send 4XX
-                                else
-                                    update title of specified map record using data in payload
-                                    send status code
-                            DELETE
-                                if unauthorized data is requested
-                                    send 4XX
-                                else
-                                    delete specified map record
-                                    delete all nodes associated with specified map
-                                    send status code
-                        /api/nodes?map_id=UUID
-                            POST
-                                if not authenticated
-                                    send 4XX
-                                else
-                                    create new node record
-                                        with data in payload and query string
-                                    send status code
+                                    return authentication/registration document
+                        /maplist
                             GET 
-                                if not authenticated
-                                    send 4XX
+                                if has session
+                                    return map list document 
                                 else
+                                    return authentication/registration document
+                        /editor
+                            GET
+                                if has session
+                                    return map editor document 
+                                else
+                                    return authentication/registration document
+                        /authentication
+                            GET
+                                send sign in page
+                    authentication
+                        /authentication/federated/google
+                            GET
+                                initiate Sign in with Google flow
+                        /oauth2/redirect/google
+                            GET
+                                fetch user's Goolge profile and establish session
+                    API
+                        /api
+                            /maps
+                                POST
+                                    ✓create new map record
+                                        using data in request body
+                                            INSERT INTO maps (title, user_id) VALUES (<received title>, <user id associated with session>)
+                                GET
+                                    return list of map records associated with the client's session
+                                        SELECT * FROM maps where user_id = <user id associated with session>
+                                PUT
+                                    update title of map record associated with client's session
+                                        using data in request body
+                                            UPDATE maps SET title = <received title> WHERE user_id = <user id associated with session>
+                                DELETE
+                                    delete map record associated with client's session
+                                        idDeldMap = DELETE FROM maps WHERE user_id = <user id associated with session> RETURNING id
+                                    delete all node records associated with the deleted map
+                                        DELETE FROM nodes WHERE id = <id of deleted map>
+                            /nodes?map_id=UUID
+                                POST
+                                    create new node record
+                                        using data in request body
+                                            main node
+                                                INSERT INTO nodes (content, map_id) VALUES (<received content>, <received parent id>, <received map id>)
+                                            child nodes
+                                                INSERT INTO nodes (content, parent_id, map_id) VALUES (<received content>, <received parent_id>, <received map id>)
+                                GET 
                                     send list of map records
-                                        associated with query string
-                            PUT
-                                if not authenticated
-                                    send 4XX
-                                else
+                                        associated with received map id
+                                            SELECT * FROM maps where id = <received map id>
+                                PUT
                                     update node record
-                                      specified by query string
-                                      with data in payload
-                            DELETE
-                                if not authenticated
-                                    send 4XX
-                                else
+                                        using data in request body
+                                            update content
+                                                UPDATE nodes SET content = <received content> WHERE id = <received node id>
+                                            update parent_id
+                                                UPDATE nodes SET parent_id = <received parent id> WHERE id = <received node id>
+                                DELETE
                                     delete node record
-                                        specified by query string
+                                        DELETE FROM nodes WHERE id = <received node id>
                 design HTTP server
                     listen to requests
                         Node

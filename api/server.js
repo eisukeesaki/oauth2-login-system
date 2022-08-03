@@ -45,19 +45,25 @@ redisClient.on("error", (err) => {
 
 testDbConn(db);
 
-app.use(logRequest);
-
 app.use(express.urlencoded({ extended: false }));
+// app.use(express.json({
+//   inflate: true, // handle compressed bodies
+//   limit: 1000, // max body size to accept
+//   strict: true, // only accept arrays and objects
+//   type: "application/json" // what media type to parse
+// }));
+
+app.use(logRequest);
 
 app.use(express.static("@views"));
 
 app.use(session({
+  secret: process.env["SESSION_SECRET"], // what to encrypt session data with?
+  name: "SID", // name of session cookie?
+  resave: false, // force save unmodified session object BACK TO store?
+  saveUninitialized: true, // force save new, unmodified session object to store?
   secret: process.env["SESSION_SECRET"],
-  name: "SID",
-  resave: false,
-  saveUninitialized: true,
-  secret: process.env["SESSION_SECRET"],
-  unset: "keep",
+  unset: "keep", // what to do with session in store when unsetting req.session?
   cookie: {
     expires: new Date("2022-08-31T16:59:59"),
     httpOnly: true,
@@ -78,9 +84,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session({ pauseStream: true }));
 
-app.use(authRoute);
-app.use(viewsRoute);
-app.use(mapsRoute);
+app.use(authRoute, viewsRoute);
+app.use("/api", mapsRoute);
 
 app.listen(port, () => {
   l.info("server is listening to port %s", port);
