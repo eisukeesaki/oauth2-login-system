@@ -20,6 +20,10 @@ API
             chain route handlers to increase readability
             authenticate request
     low priority
+        session management
+            Passport.js
+                req.session.passport.user not present after done() in serializeUser callback is called
+                req.user not present after passport.authenticate() or req.login() is called
         database
             check if default (publid) schema is appropriate
             automate table seeding

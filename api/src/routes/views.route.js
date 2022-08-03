@@ -1,4 +1,5 @@
-const { logResponse, logSession } = require("@utils/logger.util");
+const { logger: l, logResponse, logSession }
+  = require("@utils/logger.util");
 const views = require("express").Router();
 const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
   redirectTo: "/authentication",
@@ -21,6 +22,8 @@ views.get("/maplist",
 views.get("/editor",
   ensureAuthenticated,
   (req, res, next) => {
+    // logSession("GET /editor")(req, res, next);
+    l.info("req.session @ GET /editor", req.session);
     res.sendFile(__views + "/editor.html");
   }
 );

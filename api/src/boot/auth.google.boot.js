@@ -6,8 +6,8 @@ const strategyOptions = {
   clientID: process.env["GOOGLE_CLIENT_ID"],
   clientSecret: process.env["GOOGLE_CLIENT_SECRET"],
   callbackURL: "http://127.0.0.1:4242/oauth2/redirect/google",
-  scope: ["profile", "email"],
-  passReqToCallBack: true
+  scope: ["profile", "email"]
+  // passReqToCallBack: true
 }
 
 /*

@@ -16,21 +16,20 @@ auth.get("/oauth2/redirect/google",
     logSession("/oauth2/redirect/google")(req, res, next);
   },
   (req, res, next) => {
-    passport.authenticate("google", {
-      session: true,
-      // successRedirect: "/editor",
-      failureRedirect: "/authentication",
-      successMessage: true,
-      failureMessage: true
-    }, (err, user, info) => {
+    passport.authenticate("google", (err, user, info) => {
       logSession("callback of passport.authenticate()")(req, res, next);
       l.info("user @ callback of passport.authenticate()", user);
 
       if (err) return next(err);
       if (!user) return res.redirect("/authentication");
 
+      req.login(user, (err) => {
+        if (err) return next(err);
+      });
+
       req.session.userId = user.id;
-      logSession("after setting req.session.userId @ callback passed to passport.authenticate()")(req, res, next);
+      logSession("after calling req.login() and setting req.session.userId @ callback passed to passport.authenticate()")(req, res, next);
+      l.info("req.user @ after req.login()", req.user);
 
       res.redirect(req.session.returnTo);
       delete req.session.returnTo;

@@ -45,9 +45,9 @@ issues API
                                     create a session 
                                         use `id` and `name` of `users` table
                         review GoogleStrategy constructor options
-                        review express-session initialization options
-                        review passport.authenticate() options
-                        session store
+                        ✓review express-session initialization options
+                        ✓review passport.authenticate() options
+                        ✓session store
                             Redis
                                 configure
                                 integrate to route handling logic

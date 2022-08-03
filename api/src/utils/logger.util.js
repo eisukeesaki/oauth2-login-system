@@ -41,6 +41,7 @@ function logRequest(req, res, next) {
     "req.secure: %o\n" +
     "req.stale: %o\n" +
     "req.xhr: %o\n" +
+    "req.user: %o\n" +
     "req.isAuthenticated: %o\n" +
     "req.cookies %o\n" +
     "req.signedCookies %o\n" +
@@ -63,6 +64,7 @@ function logRequest(req, res, next) {
     req.secure,
     req.stale,
     req.xhr,
+    req.user,
     req.isAuthenticated,
     req.cookies,
     req.signedCookies,
