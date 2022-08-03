@@ -2,15 +2,30 @@ const { logger: l } = require("@utils/logger.util");
 const db = require("@boot/db.boot");
 
 async function insertMap(values) {
-  // TODO: determine validation criteria and validate values with express-validator
-  const qs = "INSERT INTO maps (title, user_id) VALUES ($1, $2)";
-  const qp = values;
+  try {
+    // TODO: determine validation criteria and validate values with express-validator
+    const qs = "INSERT INTO maps (title, user_id) VALUES ($1, $2)";
+    const qp = values;
 
-  l.info("qp @ insertMap", qp);
-  const { rows } = await db.query(qs, qp);
-  l.debug("rows = INSERT INTO maps (title, user_id) VALUES ($1, $2) @ insertMap\n", rows);
+    l.info("qp @ insertMap", qp);
+    const rows = await db.query(qs, qp);
+    l.info("rows = INSERT INTO maps (title, user_id) VALUES ($1, $2) @ insertMap\n", rows);
 
-  return rows;
+    if (!rows.rowCount) {
+      throw new Error("failed to insert map record", {
+        cause: "Query failure"
+      });
+    }
+  } catch (err) {
+    if (err.cause === "Query failure") {
+      l.error(err.message, err.cause);
+      res.status(500).send(err.message);
+    } else {
+      l.error(err);
+      throw new Error("unhandled exception");
+      res.status(500).send(err.message);
+    }
+  }
 }
 
 async function selectMaps(condition) {
@@ -25,13 +40,13 @@ async function selectMaps(condition) {
 
     if (!rows) {
       throw new Error("failed to retrieve map records", {
-        cause: "Falsy rows"
+        cause: "Query failure"
       });
     }
 
     return rows;
   } catch (err) {
-    if (err.cause === "Falsy rows") {
+    if (err.cause === "Query failure") {
       l.error(err.message, err.cause);
       res.status(500).send(err.message);
     } else {

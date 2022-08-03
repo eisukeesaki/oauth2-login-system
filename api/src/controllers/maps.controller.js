@@ -7,7 +7,7 @@ async function createMap(req, res, next) {
     l.info("req.body @ createMap", req.body);
     const title = req.body.title;
 
-    const rows = await insertMap([title, req.session.userId]);
+    await insertMap([title, req.session.userId]);
 
     res.status(201).end();
   } catch (err) {
