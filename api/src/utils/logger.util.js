@@ -26,43 +26,74 @@ function logRequest(req, res, next) {
   logger.info("captured incoming request.\n" +
     "req.protocol: %o\n" +
     "req.method: %o\n" +
+    "req.hostname: %o\n" +
+    "req.path: %o\n" +
     "req.originalUrl: %o\n" +
-    "req.query: %o\n" +
+    "req.baseUrl: %o\n" +
     "req.params: %o\n" +
-    "req.cookies: %o\n" +
+    "req.query: %o\n" +
+    "req.ip: %o\n" +
+    "req.ips: %o\n" +
+    "req.subdomains: %o\n" +
+    "req.route: %o\n" +
+    // "req.app: %o\n" +
+    "req.fresh: %o\n" +
+    "req.secure: %o\n" +
+    "req.stale: %o\n" +
+    "req.xhr: %o\n" +
+    "req.isAuthenticated: %o\n" +
+    "req.cookies %o\n" +
     "req.signedCookies %o\n" +
     "req.headers: %o\n" +
-    "req.isAuthenticated: %o\n" +
     "req.body: %o\n",
     req.protocol,
     req.method,
+    req.hostname,
+    req.path,
     req.originalUrl,
-    req.query,
+    req.baseUrl,
     req.params,
+    req.query,
+    req.ip,
+    req.ips,
+    req.subdomains,
+    req.route,
+    // req.app,
+    req.fresh,
+    req.secure,
+    req.stale,
+    req.xhr,
+    req.isAuthenticated,
     req.cookies,
     req.signedCookies,
     req.headers,
-    req.isAuthenticated,
     req.body
   );
   next();
 }
 
-function logResponse(req, res, next) {
-  logger.info("response", {
-    // routerStack: res.app._router.stack,
-    params: res.app._router.params,
-    _params: res.app._router._params,
-    headersSent: res.headersSent,
-    locals: res.locals
-  });
-  next();
+function logResponse(msg) {
+  return function(req, res, next) {
+    logger.info(`res.... @ ${msg}\n` +
+      // "res.app: %o\n" +
+      "res.headersSent: %o\n" +
+      "res.locals: %o\n",
+      // res.app,
+      res.headersSent,
+      res.locals
+    );
+    next();
+  }
 }
 
-function logSession(req, res, next) {
-  logger.info("req.session.passport %o\nreq.user %o\n",
-    req.session.passport, req.user);
-  next();
+function logSession(msg) {
+  return function(req, res, next) {
+    const message = `req.session @ ${msg}\n`;
+
+    logger.info(message, req.session);
+
+    next();
+  }
 }
 
 module.exports = {
