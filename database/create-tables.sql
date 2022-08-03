@@ -10,12 +10,12 @@ CREATE TABLE federated_credentials (
     PRIMARY KEY (provider, subject)
 );
 CREATE TABLE maps (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title varchar(50) NOT NULL UNIQUE,
     user_id UUID REFERENCES users (id)
 );
 CREATE TABLE nodes (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     content varchar(500),
     parent_id UUID,
     map_id UUID REFERENCES maps (id)
