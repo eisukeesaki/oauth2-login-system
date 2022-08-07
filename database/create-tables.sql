@@ -11,7 +11,7 @@ CREATE TABLE federated_credentials (
 );
 CREATE TABLE maps (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title varchar(50) NOT NULL UNIQUE,
+    title varchar(50) NOT NULL,
     user_id UUID REFERENCES users (id)
 );
 CREATE TABLE nodes (

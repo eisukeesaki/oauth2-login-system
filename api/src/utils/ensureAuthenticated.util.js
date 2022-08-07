@@ -1,3 +1,33 @@
+module.exports = function ensureAuthenticated(options) {
+  if (typeof options == 'string') {
+    options = { redirectTo: options }
+  }
+  options = options || {};
+
+  var url = options.redirectTo;
+  var setReturnTo = (options.setReturnTo === undefined) ? true : options.setReturnTo;
+
+  return function(req, res, next) {
+    const { logger: l, logSession } = require("@utils/logger.util");
+    l.info("req.session @ ensureAuthenticated", req.session);
+
+    // if (!req.isAuthenticated || !req.isAuthenticated()) { // unmodified original
+    if (req.session && !req.session.userId) {
+      if (setReturnTo) {
+        // if (setReturnTo && req.session) { // unmodified original
+
+        req.session.returnTo = req.originalUrl || req.url;
+
+        l.info("req.session.returnTo after its assignation @ ensureAuthenticated", req.session.returnTo);
+      }
+      l.info("Client's session is not isAuthenticated. redirecting client to %s", url);
+      return res.redirect(url);
+    }
+    l.info("Client's session is isAuthenticated. Passing contorl to next middleware");
+    next();
+  }
+}
+
 /**
  * Ensure that a user is logged in before proceeding to next route middleware.
  *
@@ -31,33 +61,3 @@
  * @return {Function}
  * @api public
  */
-module.exports = function ensureAuthenticated(options) {
-  if (typeof options == 'string') {
-    options = { redirectTo: options }
-  }
-  options = options || {};
-
-  var url = options.redirectTo;
-  var setReturnTo = (options.setReturnTo === undefined) ? true : options.setReturnTo;
-
-  return function(req, res, next) {
-    const { logger: l, logSession } = require("@utils/logger.util");
-    l.info("req.session @ ensureAuthenticated", req.session);
-
-    // if (!req.isAuthenticated || !req.isAuthenticated()) { // unmodified original
-    if (req.session && !req.session.userId) {
-      if (setReturnTo) {
-        // if (setReturnTo && req.session) { // unmodified original
-
-        req.session.returnTo = req.originalUrl || req.url;
-
-        l.info("req.session.returnTo after its assignation @ ensureAuthenticated", req.session.returnTo);
-      }
-      l.info("Client's session is not isAuthenticated. redirecting client to %s", url);
-      return res.redirect(url);
-    }
-    l.info("Client's session is isAuthenticated. Passing contorl to next middleware");
-    next();
-  }
-}
-

@@ -1,66 +1,112 @@
 const { logger: l } = require("@utils/logger.util");
-const { insertMap, selectMaps, validateQueryString, fetchMapsByUserId } =
+const { insertMap, selectMapsByUserId, selectMapById, updateMapById } =
   require("@services/maps.service");
 
 async function createMap(req, res, next) {
   try {
-    l.info("req.body @ createMap", req.body);
     const title = req.body.title;
+    const userId = req.session.userId;
 
-    await insertMap([title, req.session.userId]);
+    const row = await insertMap([title, userId]);
+    l.info("row @ createMap", row);
 
-    res.status(201).end();
+    res.status(201).send(row);
   } catch (err) {
     l.error(err);
     // TODO: determine possible errors and handle them specifically
     throw new Error("unhandled exception");
-    res.status(500).send(err.message);
   }
 }
 
+/*
+TODO: validate req.body
+*/
 async function getMaps(req, res) {
   try {
     const userId = req.session.userId;
 
-    const rows = await selectMaps(userId);
+    const rows = await selectMapsByUserId(userId);
 
     res.send(rows);
   } catch (err) {
     l.error(err);
     // TODO: determine possible errors and handle them specifically
     throw new Error("unhandled exception");
-    res.status(500).send(err.message);
+  }
+}
+
+/*
+desc: If session user owns the specified map, UPDATE it.
+TODO: validate req.body
+*/
+async function updateMap(req, res, next) {
+  try {
+    const mapId = req.body.id;
+    const title = req.body.title;
+    const userId = req.session.userId;
+    l.info("mapId @ updateMap", mapId);
+    l.info("title @ updateMap", title);
+
+    const toUpdate = await selectMapById(mapId);
+    l.info("toUpdate @ updateMap", toUpdate);
+    if (toUpdate instanceof Error)
+      throw row;
+    if (toUpdate.user_id != userId)
+      return res.status(401).end();
+    if (toUpdate.title === title) {
+      return res.send(toUpdate); // TODO: more appropriate response?
+    }
+
+    const updated = await updateMapById(mapId, title);
+    if (updated instanceof Error)
+      throw updated;
+
+    res.status(201).send(updated);
+  } catch (err) {
+    if (err.cause === "Query failure") {
+      l.error(err.message, err.cause);
+      res.status(500).send(err.message);
+    } else {
+      l.error(err);
+      // TODO: determine possible errors and handle them specifically
+      throw new Error("unhandled exception");
+    }
   }
 }
 
 module.exports = {
   createMap,
-  getMaps
+  getMaps,
+  updateMap
 };
 
-// async function getMaps(req, res) {
-//   try {
-//     const userId = req.query.user_id;
+/* use this to receive userId through query string parameters
 
-//     const validQS = validateQueryString(userId);
+async function getMaps(req, res) {
+  try {
+    const userId = req.query.user_id;
 
-//     if (validQS) {
-//       const rows = await fetchMapsByUserId(userId);
+    const validQS = validateQueryString(userId);
 
-//       res.send(rows);
-//     } else {
-//       throw new Error("query string is not a valid UUID", {
-//         cause: "InvalidUUID"
-//       });
-//     }
-//   } catch (err) {
-//     if (e.cause === "InvalidUUID") {
-//       l.error({ message: e.message, cause: e.cause });
-//       res.status(400).send(e.message);
-//     } else {
-//       l.error(err);
-//       throw new Error("unhandled exception");
-//     }
-//   }
-// }
+    if (validQS) {
+      const rows = await fetchMapsByUserId(userId);
+
+      res.send(rows);
+    } else {
+      throw new Error("query string is not a valid UUID", {
+        cause: "InvalidUUID"
+      });
+    }
+  } catch (err) {
+    if (e.cause === "InvalidUUID") {
+      l.error({ message: e.message, cause: e.cause });
+      res.status(400).send(e.message);
+    } else {
+      l.error(err);
+      throw new Error("unhandled exception");
+    }
+  }
+}
+
+*/
 

@@ -46,12 +46,12 @@ redisClient.on("error", (err) => {
 testDbConn(db);
 
 app.use(express.urlencoded({ extended: false }));
-// app.use(express.json({
-//   inflate: true, // handle compressed bodies
-//   limit: 1000, // max body size to accept
-//   strict: true, // only accept arrays and objects
-//   type: "application/json" // what media type to parse
-// }));
+app.use(express.json({
+  inflate: true, // handle compressed bodies
+  limit: 1000, // max body size to accept
+  strict: true, // only accept arrays and objects
+  type: "application/json" // what media type to parse
+}));
 
 app.use(logRequest);
 
@@ -61,7 +61,7 @@ app.use(session({
   secret: process.env["SESSION_SECRET"], // what to encrypt session data with?
   name: "SID", // name of session cookie?
   resave: false, // force save unmodified session object BACK TO store?
-  saveUninitialized: true, // force save new, unmodified session object to store?
+  saveUninitialized: false, // force save new, unmodified session object to store?
   secret: process.env["SESSION_SECRET"],
   unset: "keep", // what to do with session in store when unsetting req.session?
   cookie: {

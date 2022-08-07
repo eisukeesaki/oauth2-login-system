@@ -125,9 +125,16 @@ issues API
                                     ✓return list of map records associated with the client's session
                                         SELECT * FROM maps where user_id = <user id associated with session>
                                 PUT
-                                    update title of map record associated with client's session
+                                    update title of map record associated with received map id and client's session
                                         using data in request body
-                                            UPDATE maps SET title = <received title> WHERE user_id = <user id associated with session>
+                                            UPDATE maps SET title = <received title> WHERE id = <received map id> AND user_id = <user id associated with session>
+                                    considerations
+                                        UPDATE = operation which overwrites pre-existing resource. potentially destructive.
+                                        user's ownership of the specified map must be verified
+                                        a live session indicates user's authenticated state. it does not indicate his/her ownwership of the specified map
+                                        check if specified map is owned by session user
+                                        row =  SELECT user_id FROM maps WHERE id = req.body.map_id
+                                        req.session.userId == row.user_id ? setMaps : send 401
                                 DELETE
                                     delete map record associated with client's session
                                         idDeldMap = DELETE FROM maps WHERE user_id = <user id associated with session> RETURNING id

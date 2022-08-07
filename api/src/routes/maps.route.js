@@ -3,7 +3,7 @@ const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
   redirectTo: "/authentication",
   setReturnTo: true
 });
-const { createMap, getMaps } = require("@controllers/maps.controller");
+const { createMap, getMaps, updateMap } = require("@controllers/maps.controller");
 
 maps.post("/maps",
   ensureAuthenticated,
@@ -13,6 +13,11 @@ maps.post("/maps",
 maps.get("/maps",
   ensureAuthenticated,
   getMaps
+);
+
+maps.put("/maps",
+  ensureAuthenticated,
+  updateMap
 );
 
 module.exports = maps;
