@@ -14,6 +14,7 @@ const connectRedis = require("connect-redis");
 const authRoute = require("@routes/auth.route");
 const viewsRoute = require("@routes/views.route");
 const mapsRoute = require("@routes/maps.route");
+const nodesRoute = require("@routes/nodes.route");
 const app = express();
 const port = process.env.PORT || 4242;
 
@@ -85,7 +86,7 @@ app.use(passport.initialize());
 app.use(passport.session({ pauseStream: true }));
 
 app.use(authRoute, viewsRoute);
-app.use("/api", mapsRoute);
+app.use("/api", mapsRoute, nodesRoute);
 
 app.listen(port, () => {
   l.info("server is listening to port %s", port);

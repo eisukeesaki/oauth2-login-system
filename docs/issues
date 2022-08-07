@@ -140,14 +140,14 @@ issues API
                                         idDeldMap = DELETE FROM maps WHERE user_id = <user id associated with session> RETURNING id
                                     delete all node records associated with the deleted map
                                         DELETE FROM nodes WHERE id = <id of deleted map>
-                            /nodes?map_id=UUID
+                            /nodes
                                 POST
                                     create new node record
                                         using data in request body
                                             main node
-                                                INSERT INTO nodes (content, map_id) VALUES (<received content>, <received parent id>, <received map id>)
+                                                INSERT INTO nodes (map_id, content) VALUES (<received map id>, <received content>)
                                             child nodes
-                                                INSERT INTO nodes (content, parent_id, map_id) VALUES (<received content>, <received parent_id>, <received map id>)
+                                                INSERT INTO nodes (map_id, content, parent_id) VALUES (<received map id>, <received content>, <received parent_id>)
                                 GET 
                                     send list of map records
                                         associated with received map id
