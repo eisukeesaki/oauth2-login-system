@@ -1,5 +1,5 @@
 const { logger: l } = require("@utils/logger.util");
-const { insertMap, selectMapsByUserId, selectMapById, updateMapById } =
+const { insertMap, selectMapsByUserId, selectMapById, updateMapById, deleteMapById } =
   require("@services/maps.service");
 
 async function createMap(req, res, next) {
@@ -49,7 +49,7 @@ async function updateMap(req, res, next) {
 
     const toUpdate = await selectMapById(mapId);
     l.info("toUpdate @ updateMap", toUpdate);
-    if (toUpdate instanceof Error)
+    if (toUpdate instanceof Error) // TODO: use switch case
       throw row;
     if (toUpdate.user_id != userId)
       return res.status(401).end();
@@ -74,10 +74,41 @@ async function updateMap(req, res, next) {
   }
 }
 
+async function deleteMap(req, res, next) {
+  try {
+    const mapId = req.body.id;
+    const userId = req.session.userId;
+
+    const toDelete = await selectMapById(mapId);
+    l.info("toDelete @ updateMap", toDelete);
+    if (toDelete instanceof Error)  // TODO: use switch case
+      throw row;
+    if (!toDelete)
+      return res.status(404).end();
+    if (toDelete.user_id != userId)
+      return res.status(401).end();
+
+    const deleted = await deleteMapById(mapId);
+    if (deleted instanceof Error)
+      throw deleted;
+
+    res.status(200).send(deleted);
+  } catch (err) {
+    if (err.cause === "Query failure") {
+      l.error(err.message, err.cause);
+      res.status(500).send(err.message);
+    } else {
+      l.error(err);
+      throw new Error("unhandled exception"); // TODO: determine possible errors and handle them specifically
+    }
+  }
+}
+
 module.exports = {
   createMap,
   getMaps,
-  updateMap
+  updateMap,
+  deleteMap
 };
 
 /* use this to receive userId through query string parameters
