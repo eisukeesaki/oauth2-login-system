@@ -116,12 +116,12 @@ async function updateMapById(condition, value) {
 async function deleteMapById(condition) {
   try {
     // TODO: determine validation criteria and validate value with express-validator
-    const qs = "DELETE FROM maps WHERE id = $1 RETURNING *";
+    const qs = "DELETE FROM maps WHERE id = $1";
     const qp = [condition];
 
     l.info("qp @ deleteMapById", qp);
     const res = await db.query(qs, qp);
-    l.info("res = DELETE FROM maps WHERE id = $1 RETURNING *\n", res);
+    l.info("res = DELETE FROM maps WHERE id = $1\n", res);
 
     if (!res || !res.rowCount) {
       return new Error("failed to delete map record", {
@@ -129,7 +129,7 @@ async function deleteMapById(condition) {
       });
     }
 
-    return res.rows[0];
+    return true;
   } catch (err) {
     l.error(err);
     throw new Error("unhandled exception"); // TODO: determine possible errors and handle them specifically

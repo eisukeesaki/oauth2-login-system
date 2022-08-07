@@ -18,5 +18,5 @@ CREATE TABLE nodes (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     content varchar(500),
     parent_id UUID,
-    map_id UUID REFERENCES maps (id)
+    map_id UUID REFERENCES maps (id) ON DELETE CASCADE
 );

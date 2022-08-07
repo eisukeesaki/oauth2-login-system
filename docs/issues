@@ -125,7 +125,7 @@ issues API
                                     ✓return list of map records associated with the client's session
                                         SELECT * FROM maps where user_id = <user id associated with session>
                                 PUT
-                                    update title of map record associated with received map id and client's session
+                                    ✓update title of map record associated with received map id and client's session
                                         using data in request body
                                             UPDATE maps SET title = <received title> WHERE id = <received map id> AND user_id = <user id associated with session>
                                     considerations
@@ -136,13 +136,15 @@ issues API
                                         row =  SELECT user_id FROM maps WHERE id = req.body.map_id
                                         req.session.userId == row.user_id ? setMaps : send 401
                                 DELETE
-                                    delete map record associated with client's session
+                                    ✓delete map record associated with received map id and client's session
                                         idDeldMap = DELETE FROM maps WHERE user_id = <user id associated with session> RETURNING id
-                                    delete all node records associated with the deleted map
-                                        DELETE FROM nodes WHERE id = <id of deleted map>
+                                    ✓delete all node records associated with the deleted map
+                                        handled at DBMS layer
+                                            nodes table foreign key constraint
+                                                map_id UUID REFERENCES maps (id) ON DELETE CASCADE
                             /nodes
                                 POST
-                                    create new node record
+                                    ✓create new node record
                                         using data in request body
                                             main node
                                                 INSERT INTO nodes (map_id, content) VALUES (<received map id>, <received content>)

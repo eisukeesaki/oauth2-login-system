@@ -74,6 +74,10 @@ async function updateMap(req, res, next) {
   }
 }
 
+/*
+delete all node records associated with the deleted map
+    DELETE FROM nodes WHERE id = <id of deleted map>
+*/
 async function deleteMap(req, res, next) {
   try {
     const mapId = req.body.id;
@@ -88,11 +92,11 @@ async function deleteMap(req, res, next) {
     if (toDelete.user_id != userId)
       return res.status(401).end();
 
-    const deleted = await deleteMapById(mapId);
-    if (deleted instanceof Error)
-      throw deleted;
+    const deletedMap = await deleteMapById(mapId);
+    if (deletedMap instanceof Error)
+      throw deletedMap;
 
-    res.status(200).send(deleted);
+    res.status(200);
   } catch (err) {
     if (err.cause === "Query failure") {
       l.error(err.message, err.cause);
