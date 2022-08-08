@@ -4,8 +4,7 @@ const db = require("@boot/db.boot");
 async function insertNode(values) {
   l.info("values @ insertNode", values);
 
-  // TODO: determine validation criteria and validate values with express-validator
-  if (!values.parent_id) { // record to be inserted is a main node
+  if (!values.parent_id) { // INFO: record to be inserted is a main node
     var qs = "INSERT INTO nodes (content, map_id) VALUES ($1, $2) RETURNING *";
     var qp = [values.content, values.map_id];
   } else {
@@ -36,35 +35,60 @@ async function insertNode(values) {
   }
 }
 
-// async function deleteNodesByMapId(condition) {
-//   try {
-//     // TODO: determine validation criteria and validate value with express-validator
-//     const qs = "DELETE FROM nodes WHERE map_id = $1";
-//     const qp = [condition];
+async function selectNodesByMapId(mapId) {
+  try {
+    const qs = "SELECT * FROM nodes where map_id = $1";
+    const qp = [mapId];
 
-//     l.info("qp @ deleteNodesByMapId", qp);
-//     const res = await db.query(qs, qp);
-//     l.info("res = DELETE FROM nodes WHERE map_id = $1\n", res);
+    l.info("qp @ selectNodesByMapId", qp);
+    const res = await db.query(qs, qp);
+    l.info("res @ selectNodesByMapId: SELECT * FROM nodes where map_id = $1\n", res);
 
-//     if (!res || !res.rowCount) {
-//       return new Error("failed to delete node record(s)", {
-//         cause: "Query failure"
-//       });
-//     }
+    if (!res) {
+      throw new Error("failed to retrieve map records", {
+        cause: "Query failure"
+      });
+    }
 
-//     return true;
-//   } catch (err) {
-//     l.error(err);
-//     throw new Error("unhandled exception"); // TODO: determine possible errors and handle them specifically
-//   }
-// }
+    return res.rows;
+  } catch (err) {
+    l.error(err);
+    if (err.cause === "Query failure") {
+      l.error(err.message, err.cause);
+      res.status(500).send(err.message);
+    } else {
+      throw new Error("unhandled exception");
+    }
+  }
+}
+
+/*
+async function deleteNodesByMapId(condition) {
+  try {
+    // TODO: determine validation criteria and validate value with express-validator
+    const qs = "DELETE FROM nodes WHERE map_id = $1";
+    const qp = [condition];
+
+    l.info("qp @ deleteNodesByMapId", qp);
+    const res = await db.query(qs, qp);
+    l.info("res = DELETE FROM nodes WHERE map_id = $1\n", res);
+
+    if (!res || !res.rowCount) {
+      return new Error("failed to delete node record(s)", {
+        cause: "Query failure"
+      });
+    }
+
+    return true;
+  } catch (err) {
+    l.error(err);
+    throw new Error("unhandled exception");
+  }
+}
+*/
 
 module.exports = {
   insertNode,
-  // deleteNodesByMapId
-  // selectNodesByUserId,
-  // selectNodeById,
-  // updateNodeById,
-  // deleteNodeById // TODO: define it
+  selectNodesByMapId
 }
 

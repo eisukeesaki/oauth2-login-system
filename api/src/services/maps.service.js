@@ -1,20 +1,9 @@
-/*
-TODO
-    essential
-        validate values of INSERTs and UPDATEs before querying
-    scalability, flexibility improvements
-        implement dynamic SQL query strings
-            https://node-postgres.com/features/queries
-            https://github.com/datalanche/node-pg-format
-*/
-
 const { logger: l } = require("@utils/logger.util");
 const db = require("@boot/db.boot");
 
 async function insertMap(values) {
   l.info("values @ insertMap", values);
   try {
-    // TODO: determine validation criteria and validate values with express-validator
     const qs = "INSERT INTO maps (title, user_id) VALUES ($1, $2) RETURNING *";
     const qp = values;
 
@@ -92,7 +81,6 @@ async function selectMapById(condition) {
 async function updateMapById(condition, value) {
   l.info("executing updateMapById");
   try {
-    // TODO: determine validation criteria and validate value with express-validator
     const qs = "UPDATE maps SET title = $1 WHERE id = $2 RETURNING *";
     const qp = [value, condition];
 
@@ -115,7 +103,6 @@ async function updateMapById(condition, value) {
 
 async function deleteMapById(condition) {
   try {
-    // TODO: determine validation criteria and validate value with express-validator
     const qs = "DELETE FROM maps WHERE id = $1";
     const qp = [condition];
 
@@ -132,7 +119,7 @@ async function deleteMapById(condition) {
     return true;
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception"); // TODO: determine possible errors and handle them specifically
+    throw new Error("unhandled exception");
   }
 }
 
@@ -141,7 +128,7 @@ module.exports = {
   selectMapsByUserId,
   selectMapById,
   updateMapById,
-  deleteMapById // TODO: define it
+  deleteMapById
 }
 
 // async function insertMap(values) {

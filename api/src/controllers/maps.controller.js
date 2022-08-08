@@ -13,14 +13,10 @@ async function createMap(req, res, next) {
     res.status(201).send(row);
   } catch (err) {
     l.error(err);
-    // TODO: determine possible errors and handle them specifically
     throw new Error("unhandled exception");
   }
 }
 
-/*
-TODO: validate req.body
-*/
 async function getMaps(req, res) {
   try {
     const userId = req.session.userId;
@@ -30,15 +26,10 @@ async function getMaps(req, res) {
     res.send(rows);
   } catch (err) {
     l.error(err);
-    // TODO: determine possible errors and handle them specifically
     throw new Error("unhandled exception");
   }
 }
 
-/*
-desc: If session user owns the specified map, UPDATE it.
-TODO: validate req.body
-*/
 async function updateMap(req, res, next) {
   try {
     const mapId = req.body.id;
@@ -68,16 +59,11 @@ async function updateMap(req, res, next) {
       res.status(500).send(err.message);
     } else {
       l.error(err);
-      // TODO: determine possible errors and handle them specifically
       throw new Error("unhandled exception");
     }
   }
 }
 
-/*
-delete all node records associated with the deleted map
-    DELETE FROM nodes WHERE id = <id of deleted map>
-*/
 async function deleteMap(req, res, next) {
   try {
     const mapId = req.body.id;
@@ -103,7 +89,7 @@ async function deleteMap(req, res, next) {
       res.status(500).send(err.message);
     } else {
       l.error(err);
-      throw new Error("unhandled exception"); // TODO: determine possible errors and handle them specifically
+      throw new Error("unhandled exception");
     }
   }
 }
