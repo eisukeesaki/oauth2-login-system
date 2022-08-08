@@ -10,13 +10,7 @@ const logger = bunyan.createLogger({
       stream: process.stdout
     },
     {
-      level: "warn",
-      stream: process.stderr,
-      path: path.resolve(root, "logs.json")
-    },
-    {
-      level: "debug",
-      stream: process.out,
+      level: "error",
       path: path.resolve(root, "logs.json")
     }
   ]
