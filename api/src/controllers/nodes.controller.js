@@ -1,6 +1,6 @@
 const { logger: l } = require("@utils/logger.util");
 const { selectMapById } = require("@services/maps.service");
-const { insertNode, selectNodesByMapId } =
+const { insertNode, selectNodeByMapId, selectNodeById, updateNodeById } =
   require("@services/nodes.service");
 
 async function createNode(req, res, next) {
@@ -15,7 +15,7 @@ async function createNode(req, res, next) {
     if (map.user_id != userId) // INFO: confirm session user's ownership of the map the to-be-created-node will be associated with
       return res.status(401).end();
 
-    const created = await insertNode({ map_id: mapId, parent_id: parentId, content: content });
+    const created = await insertNode({ user_id: userId, map_id: mapId, parent_id: parentId, content: content });
     if (created instanceof Error)
       throw created;
 
@@ -45,8 +45,44 @@ async function getNodes(req, res) {
   }
 }
 
+async function updateNode(req, res) {
+  try {
+    const { id: nodeId, content, parent_id: parentId } = req.body;
+    const userId = req.session.userId;
+    l.info("nodeId @ updateNode", nodeId);
+    l.info("content @ updateNode", content);
+
+    const toUpdate = await selectNodeById(nodeId);
+    l.info("toUpdate @ updateNode", toUpdate);
+    if (toUpdate instanceof Error) // TODO: use switch case
+      throw row;
+    else if (!toUpdate)
+      return res.status(404).end();
+    else if (toUpdate.user_id != userId)
+      return res.status(401).end();
+    else if (toUpdate.content == content && toUpdate.parent_id == parentId) {
+      return res.send(toUpdate); // TODO: more appropriate response?
+    }
+
+    const updated = await updateNodeById({ id: nodeId, content: content, parent_id: parentId });
+    if (updated instanceof Error)
+      throw updated;
+
+    res.status(201).send(updated);
+  } catch (err) {
+    if (err.cause === "Query failure") {
+      l.error(err.message, err.cause);
+      res.status(500).send(err.message);
+    } else {
+      l.error(err);
+      throw new Error("unhandled exception");
+    }
+  }
+}
+
 module.exports = {
   createNode,
-  getNodes
+  getNodes,
+  updateNode
 };
 
