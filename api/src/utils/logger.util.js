@@ -24,6 +24,7 @@ function logRequest(req, res, next) {
     "req.path: %o\n" +
     "req.originalUrl: %o\n" +
     "req.baseUrl: %o\n" +
+    "req.url: %o\n" +
     "req.params: %o\n" +
     "req.query: %o\n" +
     "req.ip: %o\n" +
@@ -47,6 +48,7 @@ function logRequest(req, res, next) {
     req.path,
     req.originalUrl,
     req.baseUrl,
+    req.url,
     req.params,
     req.query,
     req.ip,
