@@ -3,7 +3,7 @@ const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
   redirectTo: "/authentication",
   setReturnTo: true
 });
-const { createNode, getNodes, updateNode } = require("@controllers/nodes.controller");
+const { createNode, getNodes, updateNode, deleteNode } = require("@controllers/nodes.controller");
 
 nodes.post("/nodes",
   ensureAuthenticated,
@@ -20,10 +20,10 @@ nodes.put("/nodes",
   updateNode
 );
 
-// nodes.delete("/nodes",
-//   ensureAuthenticated,
-//   deleteNode
-// );
+nodes.delete("/nodes",
+  ensureAuthenticated,
+  deleteNode
+);
 
 module.exports = nodes;
 

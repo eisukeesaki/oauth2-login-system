@@ -1,6 +1,6 @@
 const { logger: l } = require("@utils/logger.util");
 const { selectMapById } = require("@services/maps.service");
-const { insertNode, selectNodeByMapId, selectNodeById, updateNodeById } =
+const { insertNode, selectNodeByMapId, selectNodeById, updateNodeById, deleteNodeById } =
   require("@services/nodes.service");
 
 async function createNode(req, res, next) {
@@ -80,9 +80,41 @@ async function updateNode(req, res) {
   }
 }
 
+async function deleteNode(req, res) {
+  try {
+    const { id } = req.body;
+    const { userId } = req.session;
+
+    const toDel = await selectNodeById(id);
+    l.info("toDel @ deleteNode", toDel);
+
+    if (toDel instanceof Error)  // TODO: use switch case
+      throw toDel;
+    else if (!toDel)
+      return res.status(404).end();
+    else if (toDel.user_id != userId)
+      return res.status(401).end();
+
+    const deledNode = await deleteNodeById(id);
+    if (deledNode instanceof Error)
+      throw deledNode;
+
+    res.status(200).end();
+  } catch (err) {
+    if (err.cause === "Query failure") {
+      l.error(err.message, err.cause);
+      res.status(500).send(err.message);
+    } else {
+      l.error(err);
+      throw new Error("unhandled exception");
+    }
+  }
+}
+
 module.exports = {
   createNode,
   getNodes,
-  updateNode
+  updateNode,
+  deleteNode
 };
 
