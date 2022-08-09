@@ -1,3 +1,19 @@
 .header {
-    background-color: aquamarine;
+    background-color: #64c8cd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    color: #fff;
+}
+
+.heading {
+    margin: 0 0 0 40px;
+}
+
+.navbar {
+    margin: 0 40px 0 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
 }

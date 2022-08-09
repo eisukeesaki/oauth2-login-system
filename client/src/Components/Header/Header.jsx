@@ -7,7 +7,7 @@ const Header = () => {
     return (
         <header className="header">
             <h1 className="heading">MindNet</h1>
-            <ul className="navBar">
+            <ul className="navbar">
                 {navbarItem.map((item, index) => (
                     <li key={index}>{item}</li>
                 ))}
