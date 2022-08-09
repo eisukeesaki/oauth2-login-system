@@ -21,7 +21,7 @@ async function insertMap(values) {
   } catch (err) {
     if (err.cause === "Query failure") {
       l.error(err.message, err.cause);
-      res.status(500).send(err.message);
+      res.status(500).send(err.message); // FIX: this res is not res(ponse). return a value from here and make a corresponding response from controller function
     } else {
       l.error(err);
       throw new Error("unhandled exception");
@@ -48,7 +48,7 @@ async function selectMapsByUserId(condition) {
   } catch (err) {
     if (err.cause === "Query failure") {
       l.error(err.message, err.cause);
-      res.status(500).send(err.message);
+      res.status(500).send(err.message); // FIX: this res is not res(ponse). return a value from here and make a corresponding response from controller function
     } else {
       l.error(err);
       throw new Error("unhandled exception");
