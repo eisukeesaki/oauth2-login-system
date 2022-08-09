@@ -5,22 +5,22 @@ const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
 });
 const { createNode, getNodes, updateNode, deleteNode } = require("@controllers/nodes.controller");
 
-nodes.post("/nodes",
+nodes.post("/api/nodes",
   ensureAuthenticated,
   createNode
 );
 
-nodes.get("/nodes",
+nodes.get("/api/nodes",
   ensureAuthenticated,
   getNodes
 );
 
-nodes.put("/nodes",
+nodes.put("/api/nodes",
   ensureAuthenticated,
   updateNode
 );
 
-nodes.delete("/nodes",
+nodes.delete("/api/nodes",
   ensureAuthenticated,
   deleteNode
 );

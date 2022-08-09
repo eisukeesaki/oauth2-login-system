@@ -16,7 +16,7 @@ module.exports = function ensureAuthenticated(options) {
       if (setReturnTo) {
         // if (setReturnTo && req.session) { // unmodified original
 
-        req.session.returnTo = req.originalUrl || req.url;
+        req.session.returnTo = req.path;
 
         l.info("req.session.returnTo after its assignation @ ensureAuthenticated", req.session.returnTo);
       }
