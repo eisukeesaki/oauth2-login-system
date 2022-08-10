@@ -8,7 +8,7 @@ async function createNode(req, res, next) {
     const { map_id: mapId, parent_id: parentId, content } = req.body;
     const { userId } = req.session;
 
-    const map = await selectMapById(mapId); // identifies that map the to-be-created-node will be associated with
+    const map = await selectMapById(mapId);
     l.info("map @ createNode", map);
     if (map instanceof Error) // TODO: use switch case
       throw row;
