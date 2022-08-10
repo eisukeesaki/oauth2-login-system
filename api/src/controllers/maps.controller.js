@@ -10,8 +10,10 @@ async function createMap(req, res, next) {
     const created = await insertMap([title, userId]);
     l.info("created @ createMap", created);
 
-    if (created instanceof Error && created.cause == "Query failure")
-      return res.send(500);
+    if (created instanceof Error && created.cause === "Query failure")
+      return res.status(500).end();
+    if (deleteMap === false)
+      return res.status(500).end();
 
     res.status(201).send(created);
   } catch (err) {
@@ -25,9 +27,12 @@ async function getMaps(req, res) {
     const userId = req.session.userId;
 
     const got = await selectMapsByUserId(userId);
+    l.info("got @ getMaps", got);
 
     if (got instanceof Error && got.cause === "Query failure")
-      return res.send(500);
+      return res.status(500).end();
+    if (got === false)
+      return res.status(404).end();
 
     res.send(got);
   } catch (err) {
@@ -48,7 +53,9 @@ async function updateMap(req, res, next) {
     l.info("toUpdate @ updateMap", toUpdate);
 
     if (toUpdate instanceof Error && toUpdate.cause === "Query failure")
-      return res.send(500);
+      return res.status(500).end();
+    if (toUpdate === false)
+      return res.status(404).end();
     if (toUpdate.user_id != userId)
       return res.status(401).end();
     if (toUpdate.title == title)
@@ -58,17 +65,14 @@ async function updateMap(req, res, next) {
     l.info("updated @ updateMap", updated);
 
     if (updated instanceof Error && updated.cause === "Query failure")
-      return res.send(500);
+      return res.status(500).end();
+    if (updated === false)
+      return res.status(500).end(); // TODO: cause unkonwn!
 
     res.status(201).send(updated);
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
@@ -80,31 +84,26 @@ async function deleteMap(req, res, next) {
     const toDelete = await selectMapById(mapId);
     l.info("toDelete @ updateMap", toDelete);
 
-    if (!toDelete)
-      return res.status(404).end();
     if (toDelete instanceof Error && toDelete.cause === "Query failure")
       return res.send(500);
+    if (toDelete === false)
+      return res.status(404).end();
     if (toDelete.user_id != userId)
       return res.status(401).end();
 
     const deletedMap = await deleteMapById(mapId);
     l.info("deletedMap @ deleteMap", deletedMap);
 
-    if (deletedMap === true)
-      return res.status(200).end();
-
     if (deletedMap instanceof Error && deletedMap.cause === "Query failure")
       return res.status(500).end();
-    if (deletedMap instanceof Error && deletedMap.cause === "Record not found")
-      return res.status(404).end();
+    if (deletedMap === false)
+      return res.status(500).end(); // TODO: cause unkonwn!
+
+    if (deletedMap === true)
+      return res.status(200).end();
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 

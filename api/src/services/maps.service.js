@@ -12,21 +12,26 @@ async function insertMap(values) {
     l.info("res @ insertMap: INSERT INTO maps (title, user_id) VALUES ($1, $2) RETURNING * @ insertMap\n", res);
 
     if (!res) {
-      const err = new Error("failed to insert map record", {
+      const err = new Error("failed to create map record", {
         cause: "Query failure"
       });
       l.error(err);
       return err;
     }
 
-    return res.rows[0];
+    if (res.rowCount === 1)
+      return res.rows[0];
+    else
+      return false;
+
+    throw new Error();
   } catch (err) {
     if (err.cause === "Query failure") {
       l.error(err.message, err.cause);
       return (err);
     } else {
       l.error(err);
-      throw new Error("unhandled exception");
+      throw new Error("[FATAL] unhandled exception");
     }
   }
 }
@@ -41,14 +46,17 @@ async function selectMapsByUserId(condition) {
     l.info("res @ selectMapsById: SELECT * FROM maps where user_id = $1\n", res);
 
     if (!res) {
-      const err = new Error("failed to retrieve map records", {
+      const err = new Error("failed to get map record(s)", {
         cause: "Query failure"
       });
       l.error(err);
       return err;
     }
 
-    return res.rows;
+    if (0 < res.rowCount)
+      return res.rows;
+    else
+      false;
   } catch (err) {
     l.error(err);
     throw new Error("[FATAL] unhandled exception");
@@ -65,17 +73,22 @@ async function selectMapById(condition) {
     l.info("res @ selectMapById: SELECT * FROM maps where id = $1\n", res);
 
     if (!res) {
-      const err = new Error("failed to retrieve map record", {
+      const err = new Error("failed to update map record", {
         cause: "Query failure"
       });
       l.error(err);
       return err;
     }
 
-    return res.rows[0];
+    if (res.rowCount === 1)
+      return res.rows[0];
+    else
+      return false;
+
+    throw new Error(); // TODO: too paranoid?
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception");
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
@@ -89,7 +102,7 @@ async function updateMapById(condition, value) {
     const res = await db.query(qs, qp);
     l.info("res = UPDATE maps SET title = $1 WHERE id = $2 RETURNING *@ updateMapById\n", res);
 
-    if (!res || !res.rowCount) {
+    if (!res) {
       const err = new Error("failed to update map record", {
         cause: "Query failure"
       });
@@ -97,10 +110,15 @@ async function updateMapById(condition, value) {
       return err;
     }
 
-    return res.rows[0];
+    if (res.rowCount === 1)
+      return res.rows[0];
+    else
+      return false;
+
+    throw new Error(); // TODO: too paranoid?
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception");
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
@@ -120,21 +138,16 @@ async function deleteMapById(condition) {
       l.error(err);
       return err;
     }
-    if (!res.rowCount) {
-      const err = new Error("did not find map record by provided id", {
-        cause: "Record not found"
-      });
-      l.error(err);
-      return err;
-    }
 
     if (res.rowCount === 1)
       return true;
+    else
+      return false;
 
-    throw new Error();
+    throw new Error(); // TODO: too paranoid?
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception");
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
