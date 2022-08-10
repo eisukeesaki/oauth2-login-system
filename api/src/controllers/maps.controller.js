@@ -79,18 +79,24 @@ async function deleteMap(req, res, next) {
 
     const toDelete = await selectMapById(mapId);
     l.info("toDelete @ updateMap", toDelete);
-    if (toDelete instanceof Error)  // TODO: use switch case
-      throw row;
+
     if (!toDelete)
       return res.status(404).end();
+    if (toDelete instanceof Error && toDelete.cause === "Query failure")
+      return res.send(500);
     if (toDelete.user_id != userId)
       return res.status(401).end();
 
     const deletedMap = await deleteMapById(mapId);
-    if (deletedMap instanceof Error)
-      throw deletedMap;
+    l.info("deletedMap @ deleteMap", deletedMap);
 
-    res.status(200);
+    if (deletedMap === true)
+      return res.status(200).end();
+
+    if (deletedMap instanceof Error && deletedMap.cause === "Query failure")
+      return res.status(500).end();
+    if (deletedMap instanceof Error && deletedMap.cause === "Record not found")
+      return res.status(404).end();
   } catch (err) {
     if (err.cause === "Query failure") {
       l.error(err.message, err.cause);

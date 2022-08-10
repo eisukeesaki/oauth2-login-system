@@ -105,28 +105,33 @@ async function updateMapById(condition, value) {
 }
 
 async function deleteMapById(condition) {
-  // debug {
-  // const err = new Error("failed to update map record", {
-  //   cause: "Query failure"
-  // });
-  // l.error(err);
-  // return err;
-  // }
   try {
     const qs = "DELETE FROM maps WHERE id = $1";
     const qp = [condition];
 
     l.info("qp @ deleteMapById", qp);
     const res = await db.query(qs, qp);
-    l.info("res = DELETE FROM maps WHERE id = $1\n", res);
+    l.info("res @ deleteMapById = DELETE FROM maps WHERE id = $1\n", res);
 
-    if (!res || !res.rowCount) {
-      return new Error("failed to delete map record", {
+    if (!res) {
+      const err = new Error("failed to delete map record", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
+    }
+    if (!res.rowCount) {
+      const err = new Error("did not find map record by provided id", {
+        cause: "Record not found"
+      });
+      l.error(err);
+      return err;
     }
 
-    return true;
+    if (res.rowCount === 1)
+      return true;
+
+    throw new Error();
   } catch (err) {
     l.error(err);
     throw new Error("unhandled exception");
