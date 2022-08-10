@@ -46,17 +46,19 @@ async function updateMap(req, res, next) {
 
     const toUpdate = await selectMapById(mapId);
     l.info("toUpdate @ updateMap", toUpdate);
-    if (toUpdate instanceof Error) // TODO: use switch case
-      throw row;
+
+    if (toUpdate instanceof Error && toUpdate.cause === "Query failure")
+      return res.send(500);
     if (toUpdate.user_id != userId)
       return res.status(401).end();
-    if (toUpdate.title === title) {
-      return res.send(toUpdate); // TODO: more appropriate response?
-    }
+    if (toUpdate.title == title)
+      return res.status(200).send(toUpdate); // TODO: more appropriate response?
 
     const updated = await updateMapById(mapId, title);
-    if (updated instanceof Error)
-      throw updated;
+    l.info("updated @ updateMap", updated);
+
+    if (updated instanceof Error && updated.cause === "Query failure")
+      return res.send(500);
 
     res.status(201).send(updated);
   } catch (err) {

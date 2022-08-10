@@ -65,9 +65,11 @@ async function selectMapById(condition) {
     l.info("res @ selectMapById: SELECT * FROM maps where id = $1\n", res);
 
     if (!res) {
-      return new Error("failed to retrieve map records", {
+      const err = new Error("failed to retrieve map record", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
     return res.rows[0];
@@ -88,9 +90,11 @@ async function updateMapById(condition, value) {
     l.info("res = UPDATE maps SET title = $1 WHERE id = $2 RETURNING *@ updateMapById\n", res);
 
     if (!res || !res.rowCount) {
-      return new Error("failed to update map record", {
+      const err = new Error("failed to update map record", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
     return res.rows[0];
@@ -101,6 +105,13 @@ async function updateMapById(condition, value) {
 }
 
 async function deleteMapById(condition) {
+  // debug {
+  // const err = new Error("failed to update map record", {
+  //   cause: "Query failure"
+  // });
+  // l.error(err);
+  // return err;
+  // }
   try {
     const qs = "DELETE FROM maps WHERE id = $1";
     const qp = [condition];
