@@ -39,20 +39,17 @@ async function selectMapsByUserId(condition) {
     l.info("res @ selectMapsById: SELECT * FROM maps where user_id = $1\n", res);
 
     if (!res) {
-      throw new Error("failed to retrieve map records", {
+      const err = new Error("failed to retrieve map records", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
     return res.rows;
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message); // FIX: this res is not res(ponse). return a value from here and make a corresponding response from controller function
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 

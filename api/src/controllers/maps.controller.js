@@ -10,7 +10,7 @@ async function createMap(req, res, next) {
     const row = await insertMap([title, userId]);
     l.info("row @ createMap", row);
 
-    if (toUpdate instanceof Error && toUpdate.cause == "Query failure") // TODO: use switch case
+    if (toUpdate instanceof Error && toUpdate.cause == "Query failure")
       res.send(500);
 
     res.status(201).send(row);
@@ -24,12 +24,15 @@ async function getMaps(req, res) {
   try {
     const userId = req.session.userId;
 
-    const rows = await selectMapsByUserId(userId);
+    const got = await selectMapsByUserId(userId);
 
-    res.send(rows);
+    if (got instanceof Error && got.cause === "Query failure")
+      return res.send(500);
+
+    res.send(got);
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception");
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
