@@ -10,10 +10,13 @@ async function createMap(req, res, next) {
     const row = await insertMap([title, userId]);
     l.info("row @ createMap", row);
 
+    if (toUpdate instanceof Error && toUpdate.cause == "Query failure") // TODO: use switch case
+      res.send(500);
+
     res.status(201).send(row);
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception");
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
