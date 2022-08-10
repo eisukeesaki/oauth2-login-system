@@ -7,13 +7,13 @@ async function createMap(req, res, next) {
     const title = req.body.title;
     const userId = req.session.userId;
 
-    const row = await insertMap([title, userId]);
-    l.info("row @ createMap", row);
+    const created = await insertMap([title, userId]);
+    l.info("created @ createMap", created);
 
-    if (toUpdate instanceof Error && toUpdate.cause == "Query failure")
-      res.send(500);
+    if (created instanceof Error && created.cause == "Query failure")
+      return res.send(500);
 
-    res.status(201).send(row);
+    res.status(201).send(created);
   } catch (err) {
     l.error(err);
     throw new Error("[FATAL] unhandled exception");

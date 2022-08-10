@@ -11,10 +11,12 @@ async function insertMap(values) {
     const res = await db.query(qs, qp);
     l.info("res @ insertMap: INSERT INTO maps (title, user_id) VALUES ($1, $2) RETURNING * @ insertMap\n", res);
 
-    if (!res || !res.rowCount) {
-      throw new Error("failed to insert map record", {
+    if (!res) {
+      const err = new Error("failed to insert map record", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
     return res.rows[0];
