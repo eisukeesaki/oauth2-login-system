@@ -13,7 +13,7 @@ async function createMap(req, res, next) {
     if (created instanceof Error && created.cause === "Query failure")
       return res.status(500).end();
     if (deleteMap === false)
-      return res.status(500).end();
+      return res.status(500).end(); // TODO: reason unkown!
 
     res.status(201).send(created);
   } catch (err) {
@@ -100,7 +100,7 @@ async function deleteMap(req, res, next) {
       return res.status(500).end(); // TODO: cause unkonwn!
 
     if (deletedMap === true)
-      return res.status(200).end();
+      res.status(200).end();
   } catch (err) {
     l.error(err);
     throw new Error("[FATAL] unhandled exception");

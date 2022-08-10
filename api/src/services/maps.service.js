@@ -26,13 +26,8 @@ async function insertMap(values) {
 
     throw new Error();
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      return (err);
-    } else {
-      l.error(err);
-      throw new Error("[FATAL] unhandled exception");
-    }
+    l.error(err);
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
