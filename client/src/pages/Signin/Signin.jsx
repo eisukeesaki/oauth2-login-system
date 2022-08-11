@@ -1,15 +1,14 @@
 import React from "react";
 import GoogleLogin from "react-google-login";
 
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 const Signin = () => {
-    const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-    console.log(clientId);
     return (
         <div>
-            hello
             <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                buttonText="Login"
+                clientId={googleClientId}
+                buttonText="Sign in with Google"
                 // onSuccess={responseGoogle}
                 // onFailure={responseGoogle}
                 cookiePolicy={"single_host_origin"}
