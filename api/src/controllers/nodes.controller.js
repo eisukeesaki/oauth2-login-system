@@ -10,14 +10,20 @@ async function createNode(req, res, next) {
 
     const map = await selectMapById(mapId);
     l.info("map @ createNode", map);
-    if (map instanceof Error) // TODO: use switch case
-      throw row;
-    if (map.user_id != userId) // INFO: confirm session user's ownership of the map the to-be-created-node will be associated with
+
+    if (map instanceof Error && map.cause === "Query failure")
+      return res.status(500).end();
+    if (map === false)
+      return res.status(404).end();
+    if (map.user_id != userId)
       return res.status(401).end();
 
     const created = await insertNode({ user_id: userId, map_id: mapId, parent_id: parentId, content: content });
-    if (created instanceof Error)
-      throw created;
+
+    if (created instanceof Error && created.cause === "Query failure")
+      return res.status(500).end();
+    if (created === false)
+      return res.status(500).end(); // TODO: reason unkown!
 
     res.status(201).send(created);
   } catch (err) {

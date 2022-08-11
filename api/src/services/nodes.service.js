@@ -3,35 +3,36 @@ const db = require("@boot/db.boot");
 
 async function insertNode(values) {
   l.info("values @ insertNode", values);
-
-  if (!values.parent_id) { // INFO: record to be inserted is a main node
-    var qs = "INSERT INTO nodes (user_id, content, map_id) VALUES ($1, $2, $3) RETURNING *";
-    var qp = [values.user_id, values.content, values.map_id];
-  } else {
-    var qs = "INSERT INTO nodes (user_id, parent_id, content, map_id) VALUES ($1, $2, $3, $4) RETURNING *";
-    var qp = [values.user_id, values.parent_id, values.content, values.map_id];
-  }
-
   try {
+    if (!values.parent_id) { // INFO: record to be inserted is a main node
+      var qs = "INSERT INTO nodes (user_id, content, map_id) VALUES ($1, $2, $3) RETURNING *";
+      var qp = [values.user_id, values.content, values.map_id];
+    } else {
+      var qs = "INSERT INTO nodes (user_id, parent_id, content, map_id) VALUES ($1, $2, $3, $4) RETURNING *";
+      var qp = [values.user_id, values.parent_id, values.content, values.map_id];
+    }
+
     l.info("qp @ insertNode", qp);
     const res = await db.query(qs, qp);
     l.info("res @ insertNode: %s\n", qs, res);
 
-    if (!res || !res.rowCount) {
-      throw new Error("failed to insert node record", {
+    if (!res) {
+      const err = new Error("failed to create node record", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
-    return res.rows[0];
+    if (res.rowCount === 1)
+      return res.rows[0];
+    else
+      return false;
+
+    throw new Error(); // TODO: investigate a case that could reach this code
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message); // FIX: this res is not res(ponse). return a value from here and make a corresponding response from controller function
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("unhandled exception");
   }
 }
 
