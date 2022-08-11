@@ -57,7 +57,7 @@ app.use(express.json({
 app.use(logRequest);
 
 app.use(express.static("@views"));
-app.use(express.static(path.join('..', 'client', 'build')));
+// app.use(express.static(path.join('..', 'client', 'build')));
 
 app.use(session({
   secret: process.env["SESSION_SECRET"], // what to encrypt session data with?
