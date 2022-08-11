@@ -1,3 +1,4 @@
+const path = require("path");
 const { logger: l, logResponse, logSession }
   = require("@utils/logger.util");
 const views = require("express").Router();
@@ -8,7 +9,8 @@ const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
 
 views.get("/",
   (req, res, next) => {
-    res.send("you have just made a GET request to /");
+    // res.send("you have just made a GET request to /");
+    res.sendFile(path.join('..', '..', '..', 'client', 'build', 'index.html'));
   }
 );
 
