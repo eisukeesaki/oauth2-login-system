@@ -12,7 +12,7 @@ async function createMap(req, res, next) {
 
     if (created instanceof Error && created.cause === "Query failure")
       return res.status(500).end();
-    if (deleteMap === false)
+    if (created === false)
       return res.status(500).end(); // TODO: reason unkown!
 
     res.status(201).send(created);
