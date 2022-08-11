@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../Components/Header/Header";
 
-const MindList = () => {
+const MapList = () => {
     return (
         <div>
             <Header />
@@ -9,4 +9,4 @@ const MindList = () => {
     );
 };
 
-export default MindList;
+export default MapList;
