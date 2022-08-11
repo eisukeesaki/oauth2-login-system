@@ -46,14 +46,19 @@ async function selectNodeById(id) {
     l.info("res @ selectNodeById: SELECT * FROM nodes where id = $1\n", res);
 
     if (!res) {
-      return new Error("failed to retrieve node record", {
+      const err = new Error("failed to retrieve node record", {
         cause: "Query failure"
       });
-    } else if (!res.rowCount) {
-      return false;
+      l.error(err);
+      return err;
     }
 
-    return res.rows[0];
+    if (res.rowCount === 1)
+      return res.rows[0];
+    else
+      return false;
+
+    throw new Error(); // TODO: investigate a case that could reach this code
   } catch (err) {
     l.error(err);
     throw new Error("unhandled exception");
@@ -70,20 +75,22 @@ async function selectNodesByMapId(mapId) {
     l.info("res @ selectNodesByMapId: SELECT * FROM nodes where map_id = $1\n", res);
 
     if (!res) {
-      throw new Error("failed to retrieve nodes records", {
+      const err = new Error("failed to get map record(s)", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
-    return res.rows;
+    if (0 < res.rowCount)
+      return res.rows;
+    else
+      false;
+
+    throw new Error(); // TODO: investigate a case that could reach this code
   } catch (err) {
     l.error(err);
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message); // FIX: this res is not res(ponse). return a value from here and make a corresponding response from controller function
-    } else {
-      throw new Error("unhandled exception");
-    }
+    throw new Error("unhandled exception");
   }
 }
 

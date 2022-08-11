@@ -1,6 +1,6 @@
 const { logger: l } = require("@utils/logger.util");
 const { selectMapById } = require("@services/maps.service");
-const { insertNode, selectNodeByMapId, selectNodeById, updateNodeById, deleteNodeById } =
+const { insertNode, selectNodesByMapId, selectNodeById, updateNodeById, deleteNodeById } =
   require("@services/nodes.service");
 
 async function createNode(req, res, next) {
@@ -39,12 +39,22 @@ async function getNodes(req, res) {
 
     const map = await selectMapById(mapId);
     l.info("map @ getNodes", map);
+
+    if (map instanceof Error && map.cause === "Query failure")
+      return res.status(500).end();
+    if (map === false)
+      return res.status(404).end();
     if (map.user_id != userId)
       return res.status(401).end();
 
     const nodes = await selectNodesByMapId(mapId);
 
-    res.send(nodes);
+    if (nodes instanceof Error && nodes.cause === "Query failure")
+      return res.status(500).end();
+    if (nodes === false)
+      return res.status(404).end();
+
+    res.status(200).send(nodes);
   } catch (err) {
     l.error(err);
     throw new Error("unhandled exception");
