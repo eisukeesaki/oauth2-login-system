@@ -114,33 +114,3 @@ module.exports = {
   deleteMap
 };
 
-/* use this to receive userId through query string parameters
-
-async function getMaps(req, res) {
-  try {
-    const userId = req.query.user_id;
-
-    const validQS = validateQueryString(userId);
-
-    if (validQS) {
-      const rows = await fetchMapsByUserId(userId);
-
-      res.send(rows);
-    } else {
-      throw new Error("query string is not a valid UUID", {
-        cause: "InvalidUUID"
-      });
-    }
-  } catch (err) {
-    if (e.cause === "InvalidUUID") {
-      l.error({ message: e.message, cause: e.cause });
-      res.status(400).send(e.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
-  }
-}
-
-*/
-

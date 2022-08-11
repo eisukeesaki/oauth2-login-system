@@ -151,51 +151,7 @@ async function deleteNodeById(id) {
     l.error(err);
     throw new Error("unhandled exception");
   }
-
-  /*
-  try {
-    const qs = "DELETE FROM maps WHERE id = $1";
-    const qp = [condition];
-
-    l.info("qp @ deleteMapById", qp);
-    const res = await db.query(qs, qp);
-    l.info("res = DELETE FROM maps WHERE id = $1\n", res);
-
-    if (!res || !res.rowCount) {
-      return new Error("failed to delete map record", {
-        cause: "Query failure"
-      });
-    }
-
-    return true;
-  }
-  */
 }
-
-/*
-async function deleteNodesByMapId(condition) {
-  try {
-    // TODO: determine validation criteria and validate value with express-validator
-    const qs = "DELETE FROM nodes WHERE map_id = $1";
-    const qp = [condition];
-
-    l.info("qp @ deleteNodesByMapId", qp);
-    const res = await db.query(qs, qp);
-    l.info("res = DELETE FROM nodes WHERE map_id = $1\n", res);
-
-    if (!res || !res.rowCount) {
-      return new Error("failed to delete node record(s)", {
-        cause: "Query failure"
-      });
-    }
-
-    return true;
-  } catch (err) {
-    l.error(err);
-    throw new Error("unhandled exception");
-  }
-}
-*/
 
 module.exports = {
   insertNode,
