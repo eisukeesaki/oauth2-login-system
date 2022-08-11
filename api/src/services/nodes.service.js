@@ -133,13 +133,20 @@ async function deleteNodeById(id) {
     const dbr = await db.query(qs, qp);
     l.info("dbr = DELETE FROM nodes WHERE id = $1\n", dbr);
 
-    if (!dbr || !dbr.rowCount) {
-      return new Error("failed to delete node record", {
+    if (!dbr) {
+      const err = new Error("failed to delete node record", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
-    return true;
+    if (dbr.rowCount === 1)
+      return true;
+    else
+      return false;
+
+    throw new Error(); // TODO: investigate a case that could reach this code
   } catch (err) {
     l.error(err);
     throw new Error("unhandled exception");

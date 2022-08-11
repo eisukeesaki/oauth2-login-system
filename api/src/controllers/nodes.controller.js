@@ -103,26 +103,26 @@ async function deleteNode(req, res) {
     const toDel = await selectNodeById(id);
     l.info("toDel @ deleteNode", toDel);
 
-    if (toDel instanceof Error)  // TODO: use switch case
-      throw toDel;
-    else if (!toDel)
+    if (toDel instanceof Error && toDel.cause === "Query failure")
+      return res.status(500).end();
+    if (toDel === false)
       return res.status(404).end();
-    else if (toDel.user_id != userId)
+    if (toDel.user_id != userId)
       return res.status(401).end();
 
     const deledNode = await deleteNodeById(id);
-    if (deledNode instanceof Error)
-      throw deledNode;
+    l.info("deledNode @ deleteMap", deledNode);
 
-    res.status(200).end();
+    if (deledNode instanceof Error && deledNode.cause === "Query failure")
+      return res.status(500).end();
+    if (deledNode === false)
+      return res.status(500).end(); // TODO: cause unkonwn!
+
+    if (deledNode === true)
+      res.status(200).end();
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("unhandled exception");
   }
 }
 
