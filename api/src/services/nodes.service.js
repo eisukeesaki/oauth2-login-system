@@ -13,10 +13,10 @@ async function insertNode(values) {
     }
 
     l.info("qp @ insertNode", qp);
-    const res = await db.query(qs, qp);
-    l.info("res @ insertNode: %s\n", qs, res);
+    const dbr = await db.query(qs, qp);
+    l.info("dbr @ insertNode: %s\n", qs, dbr);
 
-    if (!res) {
+    if (!dbr) {
       const err = new Error("failed to create node record", {
         cause: "Query failure"
       });
@@ -24,8 +24,8 @@ async function insertNode(values) {
       return err;
     }
 
-    if (res.rowCount === 1)
-      return res.rows[0];
+    if (dbr.rowCount === 1)
+      return dbr.rows[0];
     else
       return false;
 
@@ -42,10 +42,10 @@ async function selectNodeById(id) {
     const qp = [id];
 
     l.info("qp @ selectNodeById", qp);
-    const res = await db.query(qs, qp);
-    l.info("res @ selectNodeById: SELECT * FROM nodes where id = $1\n", res);
+    const dbr = await db.query(qs, qp);
+    l.info("dbr @ selectNodeById: SELECT * FROM nodes where id = $1\n", dbr);
 
-    if (!res) {
+    if (!dbr) {
       const err = new Error("failed to retrieve node record", {
         cause: "Query failure"
       });
@@ -53,8 +53,8 @@ async function selectNodeById(id) {
       return err;
     }
 
-    if (res.rowCount === 1)
-      return res.rows[0];
+    if (dbr.rowCount === 1)
+      return dbr.rows[0];
     else
       return false;
 
@@ -71,10 +71,10 @@ async function selectNodesByMapId(mapId) {
     const qp = [mapId];
 
     l.info("qp @ selectNodesByMapId", qp);
-    const res = await db.query(qs, qp);
-    l.info("res @ selectNodesByMapId: SELECT * FROM nodes where map_id = $1\n", res);
+    const dbr = await db.query(qs, qp);
+    l.info("dbr @ selectNodesByMapId: SELECT * FROM nodes where map_id = $1\n", dbr);
 
-    if (!res) {
+    if (!dbr) {
       const err = new Error("failed to get map record(s)", {
         cause: "Query failure"
       });
@@ -82,8 +82,8 @@ async function selectNodesByMapId(mapId) {
       return err;
     }
 
-    if (0 < res.rowCount)
-      return res.rows;
+    if (0 < dbr.rowCount)
+      return dbr.rows;
     else
       false;
 

@@ -81,25 +81,25 @@ async function deleteMap(req, res, next) {
     const mapId = req.body.id;
     const userId = req.session.userId;
 
-    const toDelete = await selectMapById(mapId);
-    l.info("toDelete @ updateMap", toDelete);
+    const toDel = await selectMapById(mapId);
+    l.info("toDel @ updateMap", toDel);
 
-    if (toDelete instanceof Error && toDelete.cause === "Query failure")
+    if (toDel instanceof Error && toDel.cause === "Query failure")
       return res.send(500);
-    if (toDelete === false)
+    if (toDel === false)
       return res.status(404).end();
-    if (toDelete.user_id != userId)
+    if (toDel.user_id != userId)
       return res.status(401).end();
 
-    const deletedMap = await deleteMapById(mapId);
-    l.info("deletedMap @ deleteMap", deletedMap);
+    const deledMap = await deleteMapById(mapId);
+    l.info("deledMap @ deleteMap", deledMap);
 
-    if (deletedMap instanceof Error && deletedMap.cause === "Query failure")
+    if (deledMap instanceof Error && deledMap.cause === "Query failure")
       return res.status(500).end();
-    if (deletedMap === false)
+    if (deledMap === false)
       return res.status(500).end(); // TODO: cause unkonwn!
 
-    if (deletedMap === true)
+    if (deledMap === true)
       res.status(200).end();
   } catch (err) {
     l.error(err);
