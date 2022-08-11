@@ -70,29 +70,28 @@ async function updateNode(req, res) {
 
     const toUpdate = await selectNodeById(nodeId);
     l.info("toUpdate @ updateNode", toUpdate);
-    if (toUpdate instanceof Error) // TODO: use switch case
-      throw row;
-    else if (!toUpdate)
+
+    if (toUpdate instanceof Error && toUpdate.cause === "Query failure")
+      return res.status(500).end();
+    if (toUpdate === false)
       return res.status(404).end();
-    else if (toUpdate.user_id != userId)
+    if (toUpdate.user_id != userId)
       return res.status(401).end();
-    else if (toUpdate.content == content && toUpdate.parent_id == parentId) {
-      return res.send(toUpdate); // TODO: more appropriate response?
-    }
+    if (toUpdate.content == content && toUpdate.parent_id == parentId)
+      return res.status(200).send(toUpdate); // TODO: more appropriate response?
 
     const updated = await updateNodeById({ id: nodeId, content: content, parent_id: parentId });
-    if (updated instanceof Error)
-      throw updated;
+    l.info("updated @ updateNode", updated);
+
+    if (updated instanceof Error && updated.cause === "Query failure")
+      return res.status(500).end();
+    if (updated === false)
+      return res.status(500).end(); // TODO: cause unkonwn!
 
     res.status(201).send(updated);
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("unhandled exception");
   }
 }
 

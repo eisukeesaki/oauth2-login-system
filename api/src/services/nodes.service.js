@@ -104,13 +104,20 @@ async function updateNodeById(values) {
     const dbr = await db.query(qs, qp);
     l.info("dbr @ updateNodeById: %s\n", qs, dbr);
 
-    if (!dbr || !dbr.rowCount) {
-      return new Error("failed to update node record", {
+    if (!dbr) {
+      const err = new Error("failed to update map record", {
         cause: "Query failure"
       });
+      l.error(err);
+      return err;
     }
 
-    return dbr.rows[0];
+    if (dbr.rowCount === 1)
+      return dbr.rows[0];
+    else
+      return false;
+
+    throw new Error(); // TODO: too paranoid?
   } catch (err) {
     l.error(err);
     throw new Error("unhandled exception");
