@@ -2,14 +2,14 @@ import React from "react";
 import "./Header.scss";
 
 const Header = () => {
-    const navbarItem = ["New Mindmap", "Mind list", "Log out"];
+    const navbarItem = ["New Mindmap", "Map list", "Log out"];
 
     return (
         <header className="header">
             <h1 className="heading">MindNet</h1>
-            <ul className="navbar">
+            <ul className="navBar">
                 {navbarItem.map((item, index) => (
-                    <li key={index}>{item}</li>
+                    <li className="navItem" key={index}>{item}</li>
                 ))}
             </ul>
         </header>
