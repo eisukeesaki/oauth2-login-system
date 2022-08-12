@@ -9,7 +9,9 @@ const Header = () => {
             <h1 className="heading">MindNet</h1>
             <ul className="navBar">
                 {navbarItem.map((item, index) => (
-                    <li className="navItem" key={index}>{item}</li>
+                    <li className="navItem" key={index}>
+                        {item}
+                    </li>
                 ))}
             </ul>
         </header>
