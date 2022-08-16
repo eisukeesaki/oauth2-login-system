@@ -57,6 +57,7 @@ app.use(express.json({
 app.use(logRequest);
 
 app.use(express.static("@views"));
+// app.use(express.static(path.join('..', 'client', 'build')));
 
 app.use(session({
   secret: process.env["SESSION_SECRET"], // what to encrypt session data with?
@@ -69,7 +70,7 @@ app.use(session({
     expires: new Date("2022-08-31T16:59:59"),
     httpOnly: true,
     path: "/",
-    sameSite: true,
+    sameSite: false, // investigate security vulnerabilities (in order for Sign in with Google to work, this must be set to false.)
     secure: false,
   },
   store: new RedisStore({
@@ -86,7 +87,7 @@ app.use(passport.initialize());
 app.use(passport.session({ pauseStream: true }));
 
 app.use(authRoute, viewsRoute);
-app.use("/api", mapsRoute, nodesRoute);
+app.use(mapsRoute, nodesRoute);
 
 app.listen(port, () => {
   l.info("server is listening to port %s", port);

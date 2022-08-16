@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import Home from "./pages/Home/Home";
 import Signin from "./pages/Signin/Signin";
+import MapList from "./pages/MapList/MapList";
 
 export default function App() {
     return (
@@ -10,8 +11,8 @@ export default function App() {
                 <Routes>
                     {/* <Route path="/" element={<Home />} /> */}
                     <Route path="/signin" element={<Signin />} />
-                    {/* <Route path="/mindlist" element={<MindList />} />
-                    <Route path="/signup" element={<Signup />} /> */}
+                    <Route path="/maplist" element={<MapList />} />
+                    {/* <Route path="/signup" element={<Signup />} /> */}
                 </Routes>
             </BrowserRouter>
         </>

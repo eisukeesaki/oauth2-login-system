@@ -5,22 +5,22 @@ const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
 });
 const { createMap, getMaps, updateMap, deleteMap } = require("@controllers/maps.controller");
 
-maps.post("/maps",
+maps.post("/api/maps",
   ensureAuthenticated,
   createMap
 );
 
-maps.get("/maps",
+maps.get("/api/maps",
   ensureAuthenticated,
   getMaps
 );
 
-maps.put("/maps",
+maps.put("/api/maps",
   ensureAuthenticated,
   updateMap
 );
 
-maps.delete("/maps",
+maps.delete("/api/maps",
   ensureAuthenticated,
   deleteMap
 );

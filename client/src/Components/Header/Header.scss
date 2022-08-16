@@ -1,0 +1,26 @@
+.header {
+    background-color: #64c8cd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 10vh;
+    color: #fff;
+}
+
+.heading {
+    margin: 0 0 0 40px;
+}
+
+.navBar {
+    margin: 0 0 0 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+}
+
+.navItem {
+    padding: 10px 40px;
+    &:hover {
+        cursor: pointer;
+    }
+}

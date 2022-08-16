@@ -7,13 +7,18 @@ async function createMap(req, res, next) {
     const title = req.body.title;
     const userId = req.session.userId;
 
-    const row = await insertMap([title, userId]);
-    l.info("row @ createMap", row);
+    const created = await insertMap([title, userId]);
+    l.info("created @ createMap", created);
 
-    res.status(201).send(row);
+    if (created instanceof Error && created.cause === "Query failure")
+      return res.status(500).end();
+    if (created === false)
+      return res.status(500).end(); // TODO: reason unkown!
+
+    res.status(201).send(created);
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception");
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
@@ -21,12 +26,18 @@ async function getMaps(req, res) {
   try {
     const userId = req.session.userId;
 
-    const rows = await selectMapsByUserId(userId);
+    const got = await selectMapsByUserId(userId);
+    l.info("got @ getMaps", got);
 
-    res.send(rows);
+    if (got instanceof Error && got.cause === "Query failure")
+      return res.status(500).end();
+    if (got === false)
+      return res.status(404).end();
+
+    res.send(got);
   } catch (err) {
     l.error(err);
-    throw new Error("unhandled exception");
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
@@ -40,27 +51,28 @@ async function updateMap(req, res, next) {
 
     const toUpdate = await selectMapById(mapId);
     l.info("toUpdate @ updateMap", toUpdate);
-    if (toUpdate instanceof Error) // TODO: use switch case
-      throw row;
+
+    if (toUpdate instanceof Error && toUpdate.cause === "Query failure")
+      return res.status(500).end();
+    if (toUpdate === false)
+      return res.status(404).end();
     if (toUpdate.user_id != userId)
       return res.status(401).end();
-    if (toUpdate.title === title) {
-      return res.send(toUpdate); // TODO: more appropriate response?
-    }
+    if (toUpdate.title == title)
+      return res.status(200).send(toUpdate); // TODO: more appropriate response?
 
     const updated = await updateMapById(mapId, title);
-    if (updated instanceof Error)
-      throw updated;
+    l.info("updated @ updateMap", updated);
+
+    if (updated instanceof Error && updated.cause === "Query failure")
+      return res.status(500).end();
+    if (updated === false)
+      return res.status(500).end(); // TODO: cause unkonwn!
 
     res.status(201).send(updated);
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
@@ -69,28 +81,29 @@ async function deleteMap(req, res, next) {
     const mapId = req.body.id;
     const userId = req.session.userId;
 
-    const toDelete = await selectMapById(mapId);
-    l.info("toDelete @ updateMap", toDelete);
-    if (toDelete instanceof Error)  // TODO: use switch case
-      throw row;
-    if (!toDelete)
+    const toDel = await selectMapById(mapId);
+    l.info("toDel @ updateMap", toDel);
+
+    if (toDel instanceof Error && toDel.cause === "Query failure")
+      return res.send(500);
+    if (toDel === false)
       return res.status(404).end();
-    if (toDelete.user_id != userId)
+    if (toDel.user_id != userId)
       return res.status(401).end();
 
-    const deletedMap = await deleteMapById(mapId);
-    if (deletedMap instanceof Error)
-      throw deletedMap;
+    const deledMap = await deleteMapById(mapId);
+    l.info("deledMap @ deleteMap", deledMap);
 
-    res.status(200);
+    if (deledMap instanceof Error && deledMap.cause === "Query failure")
+      return res.status(500).end();
+    if (deledMap === false)
+      return res.status(500).end(); // TODO: cause unkonwn!
+
+    if (deledMap === true)
+      res.status(200).end();
   } catch (err) {
-    if (err.cause === "Query failure") {
-      l.error(err.message, err.cause);
-      res.status(500).send(err.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
+    l.error(err);
+    throw new Error("[FATAL] unhandled exception");
   }
 }
 
@@ -100,34 +113,4 @@ module.exports = {
   updateMap,
   deleteMap
 };
-
-/* use this to receive userId through query string parameters
-
-async function getMaps(req, res) {
-  try {
-    const userId = req.query.user_id;
-
-    const validQS = validateQueryString(userId);
-
-    if (validQS) {
-      const rows = await fetchMapsByUserId(userId);
-
-      res.send(rows);
-    } else {
-      throw new Error("query string is not a valid UUID", {
-        cause: "InvalidUUID"
-      });
-    }
-  } catch (err) {
-    if (e.cause === "InvalidUUID") {
-      l.error({ message: e.message, cause: e.cause });
-      res.status(400).send(e.message);
-    } else {
-      l.error(err);
-      throw new Error("unhandled exception");
-    }
-  }
-}
-
-*/
 

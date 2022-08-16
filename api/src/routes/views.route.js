@@ -1,3 +1,5 @@
+const express = require("express");
+const path = require("path");
 const { logger: l, logResponse, logSession }
   = require("@utils/logger.util");
 const views = require("express").Router();
@@ -7,9 +9,8 @@ const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
 });
 
 views.get("/",
-  (req, res, next) => {
-    res.send("you have just made a GET request to /");
-  }
+  ensureAuthenticated,
+  express.static(path.join('..', 'client', 'build'))
 );
 
 views.get("/maplist",

@@ -1,23 +1,34 @@
 import React from "react";
-import GoogleLogin from "react-google-login";
+import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/Footer";
+import googleLogo from "../../assets/images/google.png";
+import "./Signin.scss";
+// import GoogleLogin from "react-google-login";
 
-const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+// const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 const Signin = () => {
-    const responseGoogle = (res) => {
-        console.log(res);
-    };
     return (
-        <div>
-            <GoogleLogin
-                clientId={googleClientId}
-                buttonText="Sign in with Google"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={"single_host_origin"}
-                redirectUri={"http://localhost:3000"}
-            />
-        </div>
+        <>
+            <Header />
+            <form className="signin__form">
+                <div className="signin__container">
+                    <h2 className="signin__heading">Sign in</h2>
+                    <a
+                        href="http://mindnet.me:4242/authentication/federated/google"
+                        className="signin__login"
+                    >
+                        <img
+                            src={googleLogo}
+                            alt="img"
+                            className="signin__logo"
+                        />
+                        <p className="signin__text"> Sign in with Google</p>
+                    </a>
+                </div>
+            </form>
+            <Footer />
+        </>
     );
 };
 
