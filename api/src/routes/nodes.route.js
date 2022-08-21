@@ -1,5 +1,5 @@
 const nodes = require("express").Router();
-const validateRequest = require("@utils/request-validation")();
+// const validateRequest = require("@utils/request-validation")();
 const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
   // redirectTo: "/authentication",
   // setReturnTo: true
