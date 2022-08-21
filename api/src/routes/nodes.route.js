@@ -1,7 +1,9 @@
 const nodes = require("express").Router();
+const validateRequest = require("@utils/request-validation")();
 const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
-  redirectTo: "/authentication",
-  setReturnTo: true
+  // redirectTo: "/authentication",
+  // setReturnTo: true
+  setReturnTo: false
 });
 const { createNode, getNodes, updateNode, deleteNode } = require("@controllers/nodes.controller");
 
@@ -11,6 +13,7 @@ nodes.post("/api/nodes",
 );
 
 nodes.get("/api/nodes",
+  validateRequest,
   ensureAuthenticated,
   getNodes
 );

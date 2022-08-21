@@ -21,7 +21,8 @@ module.exports = function ensureAuthenticated(options) {
         l.info("req.session.returnTo after its assignation @ ensureAuthenticated", req.session.returnTo);
       }
       l.info("Client's session is not isAuthenticated. redirecting client to %s", url);
-      return res.redirect(url);
+      return res.status(401).end();
+      // return res.redirect(url);
     }
     l.info("Client's session is isAuthenticated. Passing contorl to next middleware");
     next();

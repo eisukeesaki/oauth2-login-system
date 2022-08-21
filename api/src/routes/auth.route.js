@@ -37,7 +37,7 @@ auth.get("/oauth2/redirect/google",
       // res.redirect(req.session.returnTo);
       // delete req.session.returnTo;
 
-      res.redirect("/");
+      res.status(200).end();
     })(req, res, next);
   }
 );

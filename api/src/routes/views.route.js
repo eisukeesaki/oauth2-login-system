@@ -4,8 +4,9 @@ const { logger: l, logResponse, logSession }
   = require("@utils/logger.util");
 const views = require("express").Router();
 const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
-  redirectTo: "/authentication",
-  setReturnTo: true
+  // redirectTo: "/authentication",
+  // setReturnTo: true
+  setReturnTo: false
 });
 
 views.get("/",
@@ -13,6 +14,7 @@ views.get("/",
   express.static(path.join('..', 'client', 'build'))
 );
 
+// for testing purposes
 views.get("/maplist",
   ensureAuthenticated,
   (req, res, next) => {
@@ -20,6 +22,7 @@ views.get("/maplist",
   }
 );
 
+// for testing purposes
 views.get("/editor",
   ensureAuthenticated,
   (req, res, next) => {
@@ -28,6 +31,7 @@ views.get("/editor",
   }
 );
 
+// for testing purposes
 views.get("/authentication",
   (req, res, next) => {
     res.sendFile(__views + "/authentication.html");
