@@ -9,7 +9,7 @@ const ensureAuthenticated = require("@utils/ensureAuthenticated.util")({
 });
 
 views.get("/",
-  ensureAuthenticated,
+  // ensureAuthenticated,
   express.static(path.join('..', 'client', 'build'))
 );
 
