@@ -13,7 +13,7 @@ nodes.post("/api/nodes",
 );
 
 nodes.get("/api/nodes",
-  validateRequest,
+  // validateRequest,
   ensureAuthenticated,
   getNodes
 );
