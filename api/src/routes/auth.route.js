@@ -31,13 +31,11 @@ auth.get("/oauth2/redirect/google",
       logSession("after calling req.login() and setting req.session.userId @ callback passed to passport.authenticate()")(req, res, next);
       l.info("req.user @ after req.login()", req.user);
 
-      // l.info("req.session @ before redirect @ auth.get('oauth2/redirect/google')", req.session);
-      // if (!req.session.returnTo)
-      //   req.session.returnTo = "/maplist";
-      // res.redirect(req.session.returnTo);
-      // delete req.session.returnTo;
-
-      res.status(200).end();
+      l.info("req.session @ before redirect @ auth.get('oauth2/redirect/google')", req.session);
+      if (!req.session.returnTo)
+        req.session.returnTo = "/";
+      res.redirect(req.session.returnTo);
+      delete req.session.returnTo;
     })(req, res, next);
   }
 );

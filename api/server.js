@@ -13,8 +13,6 @@ const connectRedis = require("connect-redis");
 // const flash = require("connect-flash");
 const authRoute = require("@routes/auth.route");
 const viewsRoute = require("@routes/views.route");
-const mapsRoute = require("@routes/maps.route");
-const nodesRoute = require("@routes/nodes.route");
 const app = express();
 const port = process.env.PORT || 4242;
 
@@ -57,7 +55,6 @@ app.use(express.json({
 app.use(logRequest);
 
 app.use(express.static("@views"));
-// app.use(express.static(path.join('..', 'client', 'build')));
 
 app.use(session({
   secret: process.env["SESSION_SECRET"], // what to encrypt session data with?
@@ -81,13 +78,10 @@ app.use(session({
   })
 }));
 
-// app.use(flash());
-
 app.use(passport.initialize());
 app.use(passport.session({ pauseStream: true }));
 
 app.use(authRoute, viewsRoute);
-app.use(mapsRoute, nodesRoute);
 
 app.listen(port, () => {
   l.info("server is listening to port %s", port);
